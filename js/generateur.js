@@ -13,6 +13,19 @@
   }
   function cotes() { return { on: false, int: false, ext: false }; }
 
+  // Listes déroulantes ajoutées depuis le panneau de contrôle.
+  function persoVide(cfg) {
+    const o = {};
+    (cfg.listesPerso || []).forEach(l => { o[l.id] = ''; });
+    return o;
+  }
+  function lignesPerso(s, cfg, emplacement) {
+    return (cfg.listesPerso || []).filter(l => l.section === emplacement).map(l => {
+      const v = dans((s.perso || {})[l.id], l.valeurs || []);
+      return v ? li(emplacement === 'propre' ? v : l.libelle + ' : ' + v) : null;
+    }).filter(Boolean);
+  }
+
   function etatInitial(cfg) {
     const cond = {};
     cfg.conditions.forEach(c => { cond[c.id] = { on: false, niveaux: [] }; });
@@ -46,9 +59,10 @@
         cremone: { on: false, type: '', haut: false, bas: false, auto: false, antipanique: false },
         verrou: { on: false, haut: false, bas: false },
         gache: { on: false },
-        fermePorte: { on: false, type: '', modele: '' }
+        fermePorte: { on: false, type: '', modele: '', precision: '' }
       },
       charge: [],
+      perso: persoVide(cfg),
       avis: { on: false, hauteur: '', largeur: '', cintrage: false, serrure: false, texte: '' }
     };
   }
@@ -203,6 +217,7 @@
       if (v('joint', c.joint)) items.push(li('Joints : ' + c.joint));
       if (R.vario(s) && v('raccordTraverse', c.raccord)) items.push(li('Raccord de traverse : ' + c.raccord));
       textesPour('configurations', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
+      items.push(...lignesPerso(s, cfg, 'configurations'));
       section('Configurations :', items);
     }
 
@@ -268,12 +283,20 @@
       if (quinc.length) { items.push(li('Quincailleries :')); items.push(...quinc); }
 
       textesPour('inclus', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
+      items.push(...lignesPerso(s, cfg, 'inclus'));
       section("Inclus dans l'offre :", items);
     }
-    section('Hors gamme Forster :', horsGamme.map(t => li(t)));
+    section('Hors gamme Forster :', horsGamme.map(t => li(t)).concat(lignesPerso(s, cfg, 'horsGamme')));
 
     // --- À la charge du métallier ---
-    section('À la charge du métallier :', L(cfg, 'chargeMetallier').filter(v => s.charge.includes(v)).map(v => li(v)));
+    section('À la charge du métallier :', L(cfg, 'chargeMetallier').filter(v => s.charge.includes(v)).map(v => li(v))
+      .concat(lignesPerso(s, cfg, 'charge')));
+
+    // --- Listes ajoutées avec leur propre section ---
+    (cfg.listesPerso || []).filter(l => l.section === 'propre').forEach(l => {
+      const v = dans((s.perso || {})[l.id], l.valeurs || []);
+      if (v) section(l.libelle + ' :', [li(v)]);
+    });
 
     // --- Mise en œuvre (textes de fin) ---
     const fin = [];
@@ -409,13 +432,13 @@
   }
   function brut(t) { return String(t).replace(/\*\*(.+?)\*\*/g, '$1'); }
 
-  const STYLE_P = 'margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9pt;line-height:1.35;';
+  const STYLE_P = 'margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14pt;line-height:1.35;';
 
   function ligneHTML(x) {
     const contenu = x.gras ? '<b>' + enrichi(x.t) + '</b>' : enrichi(x.t);
     if (x.k === 'p') return '<p style="' + STYLE_P + '">' + contenu + '</p>';
-    const retrait = 12 + x.niv * 18;
-    return '<p style="' + STYLE_P + 'margin-left:' + retrait + 'pt;text-indent:-10pt;">' +
+    const retrait = 18 + x.niv * 24;
+    return '<p style="' + STYLE_P + 'margin-left:' + retrait + 'pt;text-indent:-14pt;">' +
       echap(PUCES[Math.min(x.niv, PUCES.length - 1)]) + '&nbsp;&nbsp;' + contenu + '</p>';
   }
 
@@ -428,7 +451,7 @@
     });
     m.fin.forEach(lignes => blocs.push(lignes.map(ligneHTML).join('')));
     if (m.avis.length) blocs.push('<p style="' + STYLE_P + '"><b>Avis de chantier :</b></p>' + m.avis.map(ligneHTML).join(''));
-    return '<div style="font-family:Arial,Helvetica,sans-serif;font-size:9pt;">' + blocs.join(espace) + '</div>';
+    return '<div style="font-family:Arial,Helvetica,sans-serif;font-size:14pt;">' + blocs.join(espace) + '</div>';
   }
 
   function ligneTexte(x) {

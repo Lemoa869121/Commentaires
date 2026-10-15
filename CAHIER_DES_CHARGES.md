@@ -10,7 +10,7 @@ Environ 6 utilisateurs réguliers, 16 occasionnels.
 
 L'utilisateur décrit une configuration de menuiserie (fenêtres, portes, façades aluminium/acier) dans un formulaire structuré ;
 l'application rédige en temps réel un commentaire technique formaté, prêt à être copié dans un e-mail ou un document Word
-(Arial 9, titres en gras, puces conservées).
+(Arial 14, titres en gras, puces conservées).
 
 ⚖ Le Word parle d'« application de bureau » ; le prompt de GitHub Pages. Retenu : application web (fonctionne dans tout navigateur, rien à installer).
 
@@ -18,7 +18,7 @@ l'application rédige en temps réel un commentaire technique formaté, prêt à
 
 - **En-tête** : titre, boutons *Réinitialiser* (avec confirmation), *Copier le commentaire*, lien *Panneau de contrôle*.
 - **Colonne gauche** (≈ 60 %, défilante) : formulaire en blocs numérotés. Police de l’interface : 14 pt.
-- **Colonne droite** (≈ 40 %, fixe) : aperçu en Arial 9, largeur ≈ 70 caractères, défilement vertical.
+- **Colonne droite** (≈ 40 %, fixe) : aperçu en Arial 14, défilement vertical.
 - La saisie est sauvegardée automatiquement dans le navigateur (onglet fermé par erreur = rien de perdu). *Réinitialiser* efface tout.
 
 ## 3. Formulaire
@@ -73,7 +73,7 @@ Visible si Porte, Fenêtre ou Soufflet ; masqué si seul Fixe, si EI120 actif, s
 
 ### Bloc 9 — Quincaillerie vantail secondaire
 Mêmes conditions que le bloc 8 **et** nombre de vantaux = 2.
-- Rosaces · Crémone Encastrée (à bascule haut/bas, automatique, antipanique) ou En applique (→ « Hors gamme Forster ») · Verrouillage fin Haut/Bas · Gâche électrique · Ferme-porte (+ modèle).
+- Rosaces · Crémone Encastrée (à bascule haut/bas, automatique, antipanique) ou En applique (→ « Hors gamme Forster ») · Verrouillage fin Haut/Bas · Gâche électrique · Ferme-porte (+ modèle + zone « Précision »).
 
 ### Bloc 10 — À la charge du métallier
 Cases : Bâton de maréchal, Cylindre, Crémone pompier, Cintrage, Pivot de sol, Push-barre, Ferme-porte, Serrure antipanique, Ventus pour soufflet, Sélecteur de fermeture, Manchonnage.
@@ -102,7 +102,7 @@ Case « Ajouter un avis de chantier » → Dimensions (hauteur, largeur), Cintra
 
 - Puces : niveau 1 « - », niveau 2 « o », niveau 3 « • ».
 - Jamais de valeur vide ni de titre sans contenu : une section sans ligne disparaît entièrement.
-- Copie : format enrichi (Word/Outlook, Arial 9, gras) + texte brut.
+- Copie : format enrichi (Word/Outlook, Arial 14, gras) + texte brut.
 
 ## 5. Textes automatiques (bibliothèque séparée, `data/textes.json`)
 
@@ -128,6 +128,7 @@ Repris mot pour mot du document Word, modifiables depuis le panneau de contrôle
 
 - Page `admin.html`, protégée par une **clé d'accès** : un jeton GitHub personnel limité à ce dépôt (droit « Contents : lecture et écriture »). Sans clé, on peut consulter mais pas enregistrer.
 - Permet d'ajouter, modifier, supprimer : gammes et séries, niveaux de conditions, sous-options de types, toutes les listes déroulantes, et les textes automatiques (contenu et déclencheurs).
+- Permet d'**ajouter de nouvelles listes déroulantes** : libellé, valeurs, bloc du formulaire où elle apparaît, section du commentaire où la valeur s'écrit (Configurations, Inclus dans l'offre, Hors gamme Forster, À la charge du métallier, ou sa propre section).
 - Enregistrer = commit dans `data/config.json` / `data/textes.json`. Visible **immédiatement** dans le navigateur de l'administrateur, et pour tous dès que GitHub Pages a republié (≈ 1 min).
 
 ## 7. Règles générales

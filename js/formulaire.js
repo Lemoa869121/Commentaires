@@ -255,7 +255,8 @@
             quand('cremApp', h('span', { class: 'etiquette' }, '→ Hors gamme Forster'))),
           element('vs.verrou', 'Verrouillage fin', rangee(chk('vs.verrou.haut', 'Haut'), chk('vs.verrou.bas', 'Bas'))),
           element('vs.gache', 'Gâche électrique'),
-          element('vs.fermePorte', 'Ferme-porte', fermePorte('vs.fermePorte'))),
+          element('vs.fermePorte', 'Ferme-porte', fermePorte('vs.fermePorte'),
+            champ('Précision (complète le choix)', txt('vs.fermePorte.precision', { ph: 'ex. avec bras à glissière, arrêt en ouverture…', label: 'Précision ferme-porte' })))),
         quand('pasVs', note('Non applicable : visible quand la quincaillerie principale l\'est et que le nombre de vantaux est 2.', 'vide'))),
 
       bloc(10, 'À la charge du métallier',
@@ -269,6 +270,12 @@
           rangee(chk('avis.cintrage', 'Cintrage'), chk('avis.serrure', 'Serrure')),
           champ('Texte libre (une ligne = une puce)', h('textarea', { 'data-path': 'avis.texte', rows: '5' }))))
     ];
+
+    // Listes déroulantes ajoutées depuis le panneau de contrôle, placées dans le bloc choisi.
+    (cfg.listesPerso || []).forEach(l => {
+      const b = formulaire[(Number(l.bloc) || 5) - 1] || formulaire[4];
+      b.querySelector('.corps').appendChild(champ(l.libelle, sel('perso.' + l.id, l.valeurs || [], { label: l.libelle })));
+    });
 
     racine.innerHTML = '';
     formulaire.forEach(b => racine.appendChild(b));

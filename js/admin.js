@@ -198,7 +198,48 @@
     Object.entries(cfg.listes).forEach(([id, l]) => grille.appendChild(h('div', { class: 'carte-admin' },
       h('div', { class: 'champ' }, h('span', { class: 'lbl' }, l.libelle), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
     p.appendChild(grille);
+
+    // --- Listes ajoutées ---
+    cfg.listesPerso = cfg.listesPerso || [];
+    p.appendChild(h('h3', {}, 'Listes déroulantes ajoutées'));
+    p.appendChild(h('p', { class: 'note' }, 'Chaque liste ajoutée apparaît dans le bloc choisi du formulaire. La valeur sélectionnée s’écrit dans la section choisie du commentaire, sous la forme « Libellé : valeur ».'));
+    cfg.listesPerso.forEach((l, i) => p.appendChild(h('div', { class: 'carte-admin' },
+      h('div', { class: 'rangee' },
+        h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Libellé'), texte(l.libelle, v => { l.libelle = v; })),
+        h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Placée dans le bloc'),
+          h('select', { onchange: e => { l.bloc = Number(e.target.value); majEtat(); } },
+            BLOCS.map((nom, k) => h('option', { value: String(k + 1), selected: Number(l.bloc) === k + 1 ? 'selected' : null }, (k + 1) + ' — ' + nom)))),
+        h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Écrite dans la section'),
+          h('select', { onchange: e => { l.section = e.target.value; majEtat(); } },
+            SECTIONS_PERSO.map(([v, nom]) => h('option', { value: v, selected: l.section === v ? 'selected' : null }, nom)))),
+        h('span', { class: 'espace' }),
+        h('button', { type: 'button', class: 'btn petit', title: 'Monter', onclick: () => deplacer(cfg.listesPerso, i, -1, afficherListes) }, '↑'),
+        h('button', { type: 'button', class: 'btn petit', title: 'Descendre', onclick: () => deplacer(cfg.listesPerso, i, 1, afficherListes) }, '↓'),
+        h('button', { type: 'button', class: 'btn petit danger', onclick: () => {
+          if (confirm('Supprimer la liste « ' + l.libelle + ' » ?')) { cfg.listesPerso.splice(i, 1); afficherListes(); majEtat(); }
+        } }, 'Supprimer')),
+      h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Valeurs (une par ligne)'), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
+    p.appendChild(h('button', { type: 'button', class: 'btn', onclick: () => {
+      const nom = prompt('Libellé de la nouvelle liste déroulante (ex. Couleur, Poignée…) :');
+      if (!nom || !nom.trim()) return;
+      let base = 'perso-' + (nom.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'liste');
+      let id = base, n = 2;
+      while (cfg.listesPerso.some(x => x.id === id)) id = base + '-' + n++;
+      cfg.listesPerso.push({ id, libelle: nom.trim(), bloc: 5, section: 'configurations', valeurs: [] });
+      afficherListes(); majEtat();
+      const zones = p.querySelectorAll('.carte-admin:last-of-type textarea');
+      if (zones.length) zones[zones.length - 1].focus();
+    } }, '+ Ajouter une liste déroulante'));
   }
+  const BLOCS = ['Gamme et série', 'Conditions', "Type d'ouvrage", 'Environnement', 'Configuration', 'Remplissage', 'Ferrage',
+    'Quincaillerie — vantail principal', 'Quincaillerie — vantail secondaire', 'À la charge du métallier', 'Avis de chantier'];
+  const SECTIONS_PERSO = [
+    ['configurations', 'Configurations'],
+    ['inclus', "Inclus dans l'offre"],
+    ['horsGamme', 'Hors gamme Forster'],
+    ['charge', 'À la charge du métallier'],
+    ['propre', 'Sa propre section (titre = libellé)']
+  ];
 
   // ---------- onglet Textes ----------
   const EMPLACEMENTS = [
@@ -290,6 +331,7 @@
     if (cfg.gammes.some(g => !g.nom.trim())) return 'Une gamme n’a pas de nom.';
     if (cfg.conditions.some(c => !c.niveaux.length)) return 'Chaque condition doit avoir au moins un niveau.';
     if (txt.textes.some(t => !t.titre.trim())) return 'Un texte automatique n’a pas de titre.';
+    if ((cfg.listesPerso || []).some(l => !l.libelle.trim())) return 'Une liste ajoutée n’a pas de libellé.';
     return '';
   }
   async function enregistrer() {

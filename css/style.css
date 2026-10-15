@@ -49,7 +49,7 @@ body { margin: 0; background: var(--fond); font-size: 14pt; }
   background: #fff; border: 1px solid var(--trait); border-radius: 4px; box-shadow: 0 2px 10px rgba(20, 40, 60, .07);
   padding: 22px 24px; max-height: calc(100vh - var(--entete) - 80px); overflow-y: auto;
 }
-#apercu { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; width: 70ch; max-width: 100%; color: #000; }
+#apercu { font-family: Arial, Helvetica, sans-serif; font-size: 14pt; width: 70ch; max-width: 100%; color: #000; }
 .apercu-vide { color: var(--doux); font-family: inherit; font-style: italic; margin: 0; }
 
 /* ---------- blocs ---------- */

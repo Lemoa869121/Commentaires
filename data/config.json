@@ -1,57 +1,370 @@
 {
   "version": 1,
   "gammes": [
-    { "id": "presto", "nom": "Presto", "series": ["50", "60", "XS"] },
-    { "id": "unico", "nom": "Unico", "series": ["Standard", "XS"] },
-    { "id": "fuego", "nom": "Fuego light", "series": [] },
-    { "id": "vario", "nom": "Thermfix Vario", "series": ["Vertical"] },
-    { "id": "light", "nom": "Thermfix Light", "series": ["Vertical", "Oblique"] },
-    { "id": "norm", "nom": "Norm", "series": ["34", "40", "50", "60"] }
+    {
+      "id": "presto",
+      "nom": "Presto",
+      "series": [
+        "50",
+        "60",
+        "XS"
+      ]
+    },
+    {
+      "id": "unico",
+      "nom": "Unico",
+      "series": [
+        "Standard",
+        "XS"
+      ]
+    },
+    {
+      "id": "fuego",
+      "nom": "Fuego light",
+      "series": []
+    },
+    {
+      "id": "vario",
+      "nom": "Thermfix Vario",
+      "series": [
+        "Vertical"
+      ]
+    },
+    {
+      "id": "light",
+      "nom": "Thermfix Light",
+      "series": [
+        "Vertical",
+        "Oblique"
+      ]
+    },
+    {
+      "id": "norm",
+      "nom": "Norm",
+      "series": [
+        "34",
+        "40",
+        "50",
+        "60"
+      ]
+    }
   ],
-  "seriesMasqueesDansTitre": ["Standard"],
+  "seriesMasqueesDansTitre": [
+    "Standard"
+  ],
   "conditions": [
-    { "id": "FB", "nom": "Par balle FB", "niveaux": ["4", "5", "6", "7"] },
-    { "id": "RC", "nom": "Retardateur effraction RC", "niveaux": ["1", "2", "3", "4"] },
-    { "id": "E", "nom": "Pare-flamme E", "niveaux": ["30", "60", "90", "120"] },
-    { "id": "EI", "nom": "Coupe-feu EI", "niveaux": ["30", "60", "90", "120"] }
+    {
+      "id": "FB",
+      "nom": "Par balle FB",
+      "niveaux": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "id": "RC",
+      "nom": "Retardateur effraction RC",
+      "niveaux": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "id": "E",
+      "nom": "Pare-flamme E",
+      "niveaux": [
+        "30",
+        "60",
+        "90",
+        "120"
+      ]
+    },
+    {
+      "id": "EI",
+      "nom": "Coupe-feu EI",
+      "niveaux": [
+        "30",
+        "60",
+        "90",
+        "120"
+      ]
+    }
   ],
   "types": [
-    { "id": "fenetre", "nom": "Fenêtre", "sousOptions": ["Ouvrant à la française", "Ouvrant à l'anglaise", "Oscillo-battante"] },
-    { "id": "soufflet", "nom": "Soufflet", "sousOptions": [] },
-    { "id": "projection", "nom": "Projection", "sousOptions": [] },
-    { "id": "porte", "nom": "Porte", "sousOptions": ["Tôlée", "Vitrée"] },
-    { "id": "murRideau", "nom": "Mur rideau", "sousOptions": [] },
-    { "id": "verriere", "nom": "Verrière", "sousOptions": [] },
-    { "id": "coulissant", "nom": "Coulissant", "sousOptions": [] },
-    { "id": "repliable", "nom": "Repliable", "sousOptions": [] },
-    { "id": "pivot", "nom": "Pivot désaxé", "sousOptions": [] },
-    { "id": "fixe", "nom": "Fixe", "sousOptions": ["Classique", "Bord à bord"] }
+    {
+      "id": "fenetre",
+      "nom": "Fenêtre",
+      "sousOptions": [
+        "Ouvrant à la française",
+        "Ouvrant à l'anglaise",
+        "Oscillo-battante"
+      ]
+    },
+    {
+      "id": "soufflet",
+      "nom": "Soufflet",
+      "sousOptions": []
+    },
+    {
+      "id": "projection",
+      "nom": "Projection",
+      "sousOptions": []
+    },
+    {
+      "id": "porte",
+      "nom": "Porte",
+      "sousOptions": [
+        "Tôlée",
+        "Vitrée"
+      ]
+    },
+    {
+      "id": "murRideau",
+      "nom": "Mur rideau",
+      "sousOptions": []
+    },
+    {
+      "id": "verriere",
+      "nom": "Verrière",
+      "sousOptions": []
+    },
+    {
+      "id": "coulissant",
+      "nom": "Coulissant",
+      "sousOptions": []
+    },
+    {
+      "id": "repliable",
+      "nom": "Repliable",
+      "sousOptions": []
+    },
+    {
+      "id": "pivot",
+      "nom": "Pivot désaxé",
+      "sousOptions": []
+    },
+    {
+      "id": "fixe",
+      "nom": "Fixe",
+      "sousOptions": [
+        "Classique",
+        "Bord à bord"
+      ]
+    }
   ],
   "listes": {
-    "environnementFixe": { "libelle": "Environnement — position du fixe", "valeurs": ["Gauche", "Droite", "Bord à bord"] },
-    "structure": { "libelle": "Environnement — sur structure", "valeurs": ["Acier", "Bois", "Autre"] },
-    "isolation": { "libelle": "Isolation", "valeurs": ["Série isolée - avec rupture de pont thermique", "Série non isolée"] },
-    "seuil": { "libelle": "Seuil", "valeurs": ["Automatique", "Suisse", "Joint balais"] },
-    "pose": { "libelle": "Pose", "valeurs": ["Applique", "Tunnel", "Dans un mur rideau", "Feuillure"] },
-    "ouverture": { "libelle": "Ouverture", "valeurs": ["Intérieur", "Extérieur"] },
-    "sens": { "libelle": "Sens d'ouverture", "valeurs": ["Din droite", "Din gauche"] },
-    "parclose": { "libelle": "Parclose", "valeurs": ["Aluminium", "Acier", "Plats acier"] },
-    "joint": { "libelle": "Joint", "valeurs": ["EPDM", "Silicone"] },
-    "raccordTraverse": { "libelle": "Raccord de traverse (Thermfix Vario)", "valeurs": ["Soudé", "Pions x2 (936205)", "Pions x3 (936230/31/32/33)", "Pions x4 (936210)", "Manchonnage", "Manchonnage et tube à souder"] },
-    "paumelles": { "libelle": "Paumelles — types", "valeurs": ["Soudées", "Vissées", "Caches", "2D", "3D"] },
-    "paumellesRepliable": { "libelle": "Paumelles — types réservés au repliable", "valeurs": ["FMF 150", "FMF 100"] },
-    "antiPince": { "libelle": "Anti-pince doigts", "valeurs": ["Côté rotation", "Côté verrouillage", "Rien"] },
-    "quincaillerieFenetre": { "libelle": "Quincaillerie fenêtre / soufflet", "valeurs": ["Caché", "Royal", "Visible", "Tradition crémone applique hauteur max 2400mm", "Designo", "Surposée"] },
-    "cremoneRepliable": { "libelle": "Crémone de repliable", "valeurs": ["Encastrée", "En feuillure"] },
-    "serrurePoints": { "libelle": "Serrure — nombre de points", "valeurs": ["1", "2", "3"] },
-    "serrurePene": { "libelle": "Serrure — pêne", "valeurs": ["Demi-tour", "Rouleau"] },
-    "serrureFonctionnement": { "libelle": "Serrure — fonctionnement", "valeurs": ["Mécanique", "Motorisée", "À béquille contrôlée"] },
-    "antipanique": { "libelle": "Serrure — antipanique", "valeurs": ["B", "D", "E"] },
-    "fermePorteType": { "libelle": "Ferme-porte — pose", "valeurs": ["Applique", "Encastré"] },
-    "fermePorteModele": { "libelle": "Ferme-porte — modèle", "valeurs": ["ITS", "TS", "DC"] },
-    "finition": { "libelle": "Finitions béquille / rosaces", "valeurs": ["Inox", "Alu"] },
-    "hauteurPoigneeRef": { "libelle": "Hauteur de béquille — référence", "valeurs": ["à partir du sol", "à partir du GH", "à partir du bas du dormant", "à partir du bas de l'ouvrant"] },
-    "goujons": { "libelle": "Goujons thermiques", "valeurs": ["1", "3"] },
-    "chargeMetallier": { "libelle": "À la charge du métallier", "valeurs": ["Bâton de maréchal", "Cylindre", "Crémone pompier", "Cintrage", "Pivot de sol", "Push barre", "Ferme porte", "Serrure antipanique", "Ventus pour soufflet", "Sélecteur de fermeture", "Manchonnage"] }
-  }
+    "environnementFixe": {
+      "libelle": "Environnement — position du fixe",
+      "valeurs": [
+        "Gauche",
+        "Droite",
+        "Bord à bord"
+      ]
+    },
+    "structure": {
+      "libelle": "Environnement — sur structure",
+      "valeurs": [
+        "Acier",
+        "Bois",
+        "Autre"
+      ]
+    },
+    "isolation": {
+      "libelle": "Isolation",
+      "valeurs": [
+        "Série isolée - avec rupture de pont thermique",
+        "Série non isolée"
+      ]
+    },
+    "seuil": {
+      "libelle": "Seuil",
+      "valeurs": [
+        "Automatique",
+        "Suisse",
+        "Joint balais"
+      ]
+    },
+    "pose": {
+      "libelle": "Pose",
+      "valeurs": [
+        "Applique",
+        "Tunnel",
+        "Dans un mur rideau",
+        "Feuillure"
+      ]
+    },
+    "ouverture": {
+      "libelle": "Ouverture",
+      "valeurs": [
+        "Intérieur",
+        "Extérieur"
+      ]
+    },
+    "sens": {
+      "libelle": "Sens d'ouverture",
+      "valeurs": [
+        "Din droite",
+        "Din gauche"
+      ]
+    },
+    "parclose": {
+      "libelle": "Parclose",
+      "valeurs": [
+        "Aluminium",
+        "Acier",
+        "Plats acier"
+      ]
+    },
+    "joint": {
+      "libelle": "Joint",
+      "valeurs": [
+        "EPDM",
+        "Silicone"
+      ]
+    },
+    "raccordTraverse": {
+      "libelle": "Raccord de traverse (Thermfix Vario)",
+      "valeurs": [
+        "Soudé",
+        "Pions x2 (936205)",
+        "Pions x3 (936230/31/32/33)",
+        "Pions x4 (936210)",
+        "Manchonnage",
+        "Manchonnage et tube à souder"
+      ]
+    },
+    "paumelles": {
+      "libelle": "Paumelles — types",
+      "valeurs": [
+        "Soudées",
+        "Vissées",
+        "Caches",
+        "2D",
+        "3D"
+      ]
+    },
+    "paumellesRepliable": {
+      "libelle": "Paumelles — types réservés au repliable",
+      "valeurs": [
+        "FMF 150",
+        "FMF 100"
+      ]
+    },
+    "antiPince": {
+      "libelle": "Anti-pince doigts",
+      "valeurs": [
+        "Côté rotation",
+        "Côté verrouillage",
+        "Rien"
+      ]
+    },
+    "quincaillerieFenetre": {
+      "libelle": "Quincaillerie fenêtre / soufflet",
+      "valeurs": [
+        "Caché",
+        "Royal",
+        "Visible",
+        "Tradition crémone applique hauteur max 2400mm",
+        "Designo",
+        "Surposée"
+      ]
+    },
+    "cremoneRepliable": {
+      "libelle": "Crémone de repliable",
+      "valeurs": [
+        "Encastrée",
+        "En feuillure"
+      ]
+    },
+    "serrurePoints": {
+      "libelle": "Serrure — nombre de points",
+      "valeurs": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "serrurePene": {
+      "libelle": "Serrure — pêne",
+      "valeurs": [
+        "Demi-tour",
+        "Rouleau"
+      ]
+    },
+    "serrureFonctionnement": {
+      "libelle": "Serrure — fonctionnement",
+      "valeurs": [
+        "Mécanique",
+        "Motorisée",
+        "À béquille contrôlée"
+      ]
+    },
+    "antipanique": {
+      "libelle": "Serrure — antipanique",
+      "valeurs": [
+        "B",
+        "D",
+        "E"
+      ]
+    },
+    "fermePorteType": {
+      "libelle": "Ferme-porte — pose",
+      "valeurs": [
+        "Applique",
+        "Encastré"
+      ]
+    },
+    "fermePorteModele": {
+      "libelle": "Ferme-porte — modèle",
+      "valeurs": [
+        "ITS",
+        "TS",
+        "DC"
+      ]
+    },
+    "finition": {
+      "libelle": "Finitions béquille / rosaces",
+      "valeurs": [
+        "Inox",
+        "Alu"
+      ]
+    },
+    "hauteurPoigneeRef": {
+      "libelle": "Hauteur de béquille — référence",
+      "valeurs": [
+        "à partir du sol",
+        "à partir du GH",
+        "à partir du bas du dormant",
+        "à partir du bas de l'ouvrant"
+      ]
+    },
+    "goujons": {
+      "libelle": "Goujons thermiques",
+      "valeurs": [
+        "1",
+        "3"
+      ]
+    },
+    "chargeMetallier": {
+      "libelle": "À la charge du métallier",
+      "valeurs": [
+        "Bâton de maréchal",
+        "Cylindre",
+        "Crémone pompier",
+        "Cintrage",
+        "Pivot de sol",
+        "Push barre",
+        "Ferme porte",
+        "Serrure antipanique",
+        "Ventus pour soufflet",
+        "Sélecteur de fermeture",
+        "Manchonnage"
+      ]
+    }
+  },
+  "listesPerso": []
 }
