@@ -31,7 +31,7 @@
       ferr: { paumType: '', paumQte: '', antiPince: '', quincFen: '', cremRepType: '', cremRepQte: '' },
       vp: {
         serrure: { on: false, points: '', pene: '', fonct: '', antipanique: '' },
-        fermePorte: { on: false, type: '', modele: '' },
+        fermePorte: { on: false, type: '', modele: '', precision: '' },
         bequille: Object.assign(cotes(), { finition: '', hauteur: '', hauteurRef: '' }),
         baton: cotes(),
         push: { on: false, mode: '' },
@@ -381,7 +381,8 @@
   function fermePorte(fp, cfg) {
     const t = dans(fp.type, L(cfg, 'fermePorteType'));
     const m = dans(fp.modele, L(cfg, 'fermePorteModele'));
-    const det = [t, m].filter(Boolean).join(' ');
+    const choix = [t, m].filter(Boolean).join(' ');
+    const det = [choix, net(fp.precision)].filter(Boolean).join(', ');
     return 'Ferme-porte' + (det ? ' : ' + det : '');
   }
 

@@ -2,12 +2,12 @@
 .admin .bloc h2 { padding: 12px 16px; }
 .admin input[type=text], .admin input[type=password] { min-width: 260px; }
 .admin input.court { min-width: 0; width: 120px; }
-.aide { background: #f6f8fa; border-radius: 6px; padding: 8px 14px; font-size: 13px; }
+.aide { background: #f6f8fa; border-radius: 6px; padding: 8px 14px; font-size: 14pt; }
 .aide ol { margin: 6px 0; padding-left: 20px; line-height: 1.6; }
 
 .onglets { display: flex; gap: 4px; border-bottom: 1px solid var(--trait); margin-bottom: 12px; flex-wrap: wrap; }
 .onglets button {
-  font: inherit; font-size: 13px; padding: 9px 14px; border: none; background: transparent; cursor: pointer;
+  font: inherit; font-size: 14pt; padding: 9px 14px; border: none; background: transparent; cursor: pointer;
   color: var(--doux); border-bottom: 3px solid transparent; margin-bottom: -1px;
 }
 .onglets button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
@@ -15,7 +15,7 @@
 #etat-modif.a-faire { color: var(--alerte); font-weight: 600; }
 
 .panneau { display: flex; flex-direction: column; gap: 10px; }
-.panneau h3 { margin: 12px 0 0; font-size: 15px; }
+.panneau h3 { margin: 12px 0 0; font-size: 14pt; }
 .carte-admin { background: #fff; border: 1px solid var(--trait); border-radius: var(--rayon); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
 .grille-listes { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
 .espace { flex: 1; }
@@ -25,14 +25,14 @@
 .btn.danger:hover { background: var(--alerte-fond); }
 
 details summary { cursor: pointer; list-style: revert; }
-.resume-texte { font-size: 12px; color: var(--doux); }
+.resume-texte { font-size: 14pt; color: var(--doux); }
 .details-texte { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
 .champ.large { flex: 1; min-width: 260px; }
 .champ.large input { width: 100%; }
 .conds { display: flex; flex-direction: column; gap: 6px; }
 .cond-ligne { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; }
 .niveaux.inactif { opacity: .35; pointer-events: none; }
-.texte-long { font-family: ui-monospace, Consolas, monospace; font-size: 12px; line-height: 1.5; }
+.texte-long { font-family: ui-monospace, Consolas, monospace; font-size: 14pt; line-height: 1.5; }
 .secours { margin-top: 18px; }
 
 @media (max-width: 560px) {

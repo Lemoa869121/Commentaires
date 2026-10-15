@@ -17,7 +17,7 @@ l'application rédige en temps réel un commentaire technique formaté, prêt à
 ## 2. Écran
 
 - **En-tête** : titre, boutons *Réinitialiser* (avec confirmation), *Copier le commentaire*, lien *Panneau de contrôle*.
-- **Colonne gauche** (≈ 60 %, défilante) : formulaire en blocs numérotés.
+- **Colonne gauche** (≈ 60 %, défilante) : formulaire en blocs numérotés. Police de l’interface : 14 pt.
 - **Colonne droite** (≈ 40 %, fixe) : aperçu en Arial 9, largeur ≈ 70 caractères, défilement vertical.
 - La saisie est sauvegardée automatiquement dans le navigateur (onglet fermé par erreur = rien de perdu). *Réinitialiser* efface tout.
 
@@ -66,7 +66,7 @@ Fenêtre, Soufflet, Projection, Porte, Mur rideau, Verrière, Coulissant, Replia
 ### Bloc 8 — Quincaillerie vantail principal
 Visible si Porte, Fenêtre ou Soufflet ; masqué si seul Fixe, si EI120 actif, si Thermfix Vario. Chaque élément se coche pour être inclus.
 - Serrure : 1/2/3 points, pêne (Demi-tour, Rouleau), fonctionnement (Mécanique, Motorisée, À béquille contrôlée), antipanique (B, D, E).
-- Ferme-porte : Applique / Encastré + modèle (ITS, TS, DC).
+- Ferme-porte : Applique / Encastré + modèle (ITS, TS, DC) + zone de texte « Précision » qui complète le choix.
 - Manœuvre (cumulable) : Béquille (Intérieur/Extérieur, Inox/Alu) · Bâton de maréchal (→ « Hors gamme Forster » automatiquement) · Push-barre (Inclus dans l'offre / Hors gamme Forster).
 - Hauteur de béquille : valeur en mm + référence (à partir du sol, GH, bas du dormant, bas de l'ouvrant). Avec béquille : mentions en gras « Attention, béquille au milieu de l'ouvrant par défaut » (si aucune hauteur) et « Hauteur de la béquille à valider avant chaque commande. »
 - Rosaces (Intérieur/Extérieur, Alu/Inox, Sécurité) · Pions anti-dégondage · Goujons thermiques 1/3 · Profil préentaillé (Serrure, Ferme-porte) · Ventouses (bouton « Écrire… » → fenêtre de texte libre).
