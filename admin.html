@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Commentaires — Panneau de contrôle</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d3f5e'/%3E%3Cpath d='M8 10h16M8 16h16M8 22h10' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="entete">
+    <h1>Panneau de contrôle</h1>
+    <div class="actions">
+      <a class="btn discret" href="index.html">← Retour à l'application</a>
+      <button type="button" class="btn" id="btn-deconnexion" hidden>Se déconnecter</button>
+      <button type="button" class="btn principal" id="btn-enregistrer" hidden>Enregistrer</button>
+    </div>
+  </header>
+
+  <main class="admin">
+    <!-- Connexion -->
+    <section class="bloc" id="connexion">
+      <h2>Accès protégé</h2>
+      <div class="corps">
+        <p class="note">La clé d'accès est un <strong>jeton GitHub</strong> limité à ce dépôt, avec le droit
+          « Contents : Read and write ». Seules les personnes qui ont cette clé peuvent modifier les listes et les textes.
+          <a href="#aide-cle" id="lien-aide">Comment créer la clé ?</a></p>
+        <div class="rangee">
+          <div class="champ"><span class="lbl">Dépôt GitHub</span><input type="text" id="depot" value="Lemoa869121/Commentaires"></div>
+          <div class="champ"><span class="lbl">Branche</span><input type="text" id="branche" value="main" class="court"></div>
+        </div>
+        <div class="champ"><span class="lbl">Clé d'accès</span><input type="password" id="cle" autocomplete="current-password" placeholder="github_pat_…"></div>
+        <label class="chk"><input type="checkbox" id="memoriser"> <span>Se souvenir de la clé sur cet ordinateur</span></label>
+        <div class="rangee"><button type="button" class="btn principal" id="btn-connexion">Ouvrir</button><span id="msg-connexion" class="note"></span></div>
+        <div id="aide-cle" class="aide" hidden>
+          <ol>
+            <li>Sur GitHub : photo de profil → <em>Settings</em> → <em>Developer settings</em> → <em>Personal access tokens</em> → <em>Fine-grained tokens</em> → <em>Generate new token</em>.</li>
+            <li>Nom : « Commentaires admin » ; expiration au choix.</li>
+            <li><em>Repository access</em> : <em>Only select repositories</em> → <strong>Commentaires</strong>.</li>
+            <li><em>Permissions</em> → <em>Repository permissions</em> → <strong>Contents : Read and write</strong>.</li>
+            <li>Générez, copiez la clé et collez-la ici. Ne la partagez qu'avec les administrateurs.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Éditeur -->
+    <div id="editeur" hidden>
+      <nav class="onglets" role="tablist">
+        <button type="button" role="tab" data-onglet="gammes" aria-selected="true">Gammes et séries</button>
+        <button type="button" role="tab" data-onglet="conditions">Conditions et types</button>
+        <button type="button" role="tab" data-onglet="listes">Listes déroulantes</button>
+        <button type="button" role="tab" data-onglet="textes">Textes automatiques</button>
+      </nav>
+      <div id="etat-modif" class="note"></div>
+      <section class="panneau" id="p-gammes"></section>
+      <section class="panneau" id="p-conditions" hidden></section>
+      <section class="panneau" id="p-listes" hidden></section>
+      <section class="panneau" id="p-textes" hidden></section>
+      <p class="note secours">Sans connexion à GitHub, vous pouvez aussi
+        <a href="#" id="dl-config">télécharger config.json</a> et <a href="#" id="dl-textes">textes.json</a>
+        puis les déposer à la main dans le dossier <code>data/</code> du dépôt.</p>
+    </div>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/donnees.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

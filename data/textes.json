@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "textes": [
+    {
+      "id": "fuego-feu",
+      "titre": "Fuego light — E / EI",
+      "emplacement": "conditions",
+      "gammes": [
+        "fuego"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "E": [],
+        "EI": []
+      },
+      "elements": [],
+      "gras": false,
+      "texte": "- Selon PV AGC, Pilkington, Vetrotech, Pyroguard, Polflam\n- Composition du vitrage à valider avec le verrier, selon le PV feu retenu"
+    },
+    {
+      "id": "rc4-unico-porte",
+      "titre": "RC4 Unico — Porte",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": [
+          "4"
+        ]
+      },
+      "elements": [
+        "porte"
+      ],
+      "gras": false,
+      "texte": "- Hauteur max 3240mm\n- CR4 selon rapport d'essai n° MD 21 00 28 A du CNPP + rapport de conformité AP DE-GSFM-0548 du CSTB avec utilisation d’une serrure Iseo Mutliblindo Easy Exit. (Hors lot)+ rapport de conformité AP EF-24-174-01 de Buildwise avec utilisation d’une serrure Iseo Mutliblindo EMotion Exit. (Hors lot)\n- Vitrage V2S RIOUGLASS Protec 44.2/air12/PS150T (selon rapport d’essai MD 21 00 28 A)\n- Vitrage Polyguard RC4.58AP-Durchgriff (selon rapport de conformité AP DE-GSFM-0548)\n- Vitrage rProtec 44.2 / air 12 / CS21 (selon rapport de conformité AP EF-24-174-01\n- Panneau Tôle acier 5 mm extérieur / Isolant / Tôle acier ou alu 1.5 mm intérieur (selon rapport de conformité)\n- Fourniture hors lot + fabrication par le métallier : (se référer aux plans du rapport d’essais n° MD 21 00 28 A du CNPP):\n  - Plats acier de renforts épaisseur 5 mm sur ouvrant (80x5) et dormant (40x5)\n  - Goujons filetés M8 à souder sur les plats + écrous + rondelles + plaquettes acier 30x30x3\n  - Pion anti-dégondage (3 par vantail) à souder\n  - Maintien des vitrages : tube acier 20x20x2 faisant office de parclose +\n  - vis de fixation (tous les 150 mm), ou plat acier 35x5 (entraxe vis 150mm)\n  - plat acier de 60x5 en applique extérieure avec vis M6 + inserts filetés (tous les 150 mm)\n  - Seuil en tube de 50x20x1.5 ou plat acier plein de 60x15 + vis de fixation au sol\n  - Carré acier plein 8x8 + vis (à fixer en feuillure sur les 3 côtés du dormant au pas de 500 mm)\n  - Cylindre de sécurité selon références mentionnées dans le rapport d’essai\n  - Bâton de maréchal"
+    },
+    {
+      "id": "rc4-unico-fixe",
+      "titre": "RC4 Unico — Fixe",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": [
+          "4"
+        ]
+      },
+      "elements": [
+        "fixe"
+      ],
+      "gras": false,
+      "texte": "- Fourniture hors lot + fabrication par le métallier :\n- (se référer aux plans du rapport d’essais n° MD 21 00 28 A du CNPP)\n- Goujons filetés M8 à souder sur les plats + écrous + rondelles + plaquettes acier 30x30x3\n- Maintien des vitrages : tube acier 20x20x2 faisant office de parclose + vis de fixation (tous les 150 mm), ou plat acier 35x5 (entraxe vis 150mm)\n- plat acier de 50x5 en applique extérieure avec vis M6 + inserts filetés (tous les 150 mm)"
+    },
+    {
+      "id": "rc4-vario",
+      "titre": "Thermfix Vario — RC4",
+      "emplacement": "conditions",
+      "gammes": [
+        "vario"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": [
+          "4"
+        ]
+      },
+      "elements": [],
+      "gras": false,
+      "texte": "- Selon Rapport d’essai 2022-04-0117-K1\n- Vitrage P6B SGG stadip protect SP618 PV 40mm par défaut.\n- Prédimensionnement statique réalisé par notre logiciel selon des valeurs moyennes de condition de pose.\n- Cependant le calcul d'inertie permettant de déterminer la section adéquate des montants et traverse est à la charge du fabricant.\n- Montage spécifique RC4 :\n- Raccord montant traverse en tôle pliée à la charge du métallier.\n- Support de verre fabriqué par le métallier :\n- En partie haute plaque de 8x80 percé taraudé + vis 936014 / soudage du plat dans la gorge.\n- En traverse et partie basse : une plaque dont la profondeur varie selon l’épaisseur du vitrage, de la profondeur et de l’épaisseur du profil + vis 936014 / soudage bouchon à l’arrière du profil de traverse.\n- Base de serrage et écrou CR4 :\n  - Une base de serrage 936570 + vis et distanceur tous les ≤300mm en montant et traverse. (Page 75 de la doc)\n  - Écrous CR4 936012 + protection de vis 936011 + vis est distanceur 936001 et 002\n  - 3 par montant / Traverse par vitrage. (Page 75 de la doc)"
+    },
+    {
+      "id": "fb4-unico-porte",
+      "titre": "FB4 Unico — Porte",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "FB": [
+          "4"
+        ]
+      },
+      "elements": [
+        "porte"
+      ],
+      "gras": false,
+      "texte": "- Plat acier (à votre charge)"
+    },
+    {
+      "id": "fb4-unico-fixe",
+      "titre": "FB4 Unico — Fixe",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "FB": [
+          "4"
+        ]
+      },
+      "elements": [
+        "fixe"
+      ],
+      "gras": false,
+      "texte": "- Plat acier (à votre charge)\n- Inclus dans l’offre :\n  - Plats alu de renfort dans profilés"
+    },
+    {
+      "id": "fb6-unico-porte",
+      "titre": "FB6 Unico — Porte",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "FB": [
+          "6"
+        ]
+      },
+      "elements": [
+        "porte"
+      ],
+      "gras": false,
+      "texte": "- Pas de hauteur max sauf son poids en fonction des paumelles mises en places.\n- Vitrage à définir et à faire confirmer par le bureau de contrôle (car le vitrage Polyguard PRO / BR6-S / SG2-NS / P8B n'existe plus)\n- Panneau Tôle acier 2 mm extérieur / Isolant / Tôle acier 10 mm / Isolant / Tôle acier 2 mm intérieur selon rapport d’essai S 22 0208 01 / Z\n- Fourniture hors lot + fabrication par le métallier :\n  - (se référer aux plans du rapport d’essais n° S 22 0208 01 / Z)\n  - Plats acier de renfort suivant rapport d’essai\n  - Goujons filetés M8 à souder sur les plats + écrous + rondelles + plaquettes acier 30x30x3\n  - Pion anti-dégondage (3 par vantail) à souder\n  - Maintien des vitrages : tube acier faisant office de parclose + vis de fixation (tous les 150 mm), ou plat acier 35x5 (entraxe vis 150mm)\n  - Carré acier plein 5x8 + vis (à fixer en feuillure sur les 3 côtés du dormant au pas de 500 mm)\n  - Cylindre de sécurité selon références mentionnées dans le rapport d’essai"
+    },
+    {
+      "id": "fb6-unico-fixe",
+      "titre": "FB6 Unico — Fixe",
+      "emplacement": "conditions",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "FB": [
+          "6"
+        ]
+      },
+      "elements": [
+        "fixe"
+      ],
+      "gras": false,
+      "texte": "- Vitrage à définir et à faire confirmer par le bureau de contrôle (car le vitrage Polyguard PRO / BR6-S / SG2-NS / P8B n'existe plus)\n- Panneau Tôle acier 2 mm extérieur / Isolant / Tôle acier 10 mm / Isolant / Tôle acier 2 mm intérieur selon rapport d’essai S 22 0208 01 / Z\n- Fourniture hors lot + fabrication par le métallier :\n  - (se référer aux plans du rapport d’essais n° S 22 0208 01 / Z)\n  - Plats acier de renfort suivant rapport d’essai\n  - Goujons filetés M8 à souder sur les plats + écrous + rondelles + plaquettes acier 30x30x3\n  - Maintien des vitrages : tube acier faisant office de parclose + vis de fixation (tous les 150 mm), ou plat acier 35x5 (entraxe vis 150mm)\n  - Plat acier de 50x5 en applique exterieur avec vis M6 + inserts filetés (tous les 150mm)"
+    },
+    {
+      "id": "thermfix-light",
+      "titre": "Thermfix Light",
+      "emplacement": "conditions",
+      "gammes": [
+        "light"
+      ],
+      "gammesExclues": [],
+      "conditions": {},
+      "elements": [],
+      "gras": false,
+      "texte": "- Toiture non porteuse pose sur structure porteuse  hors Forster\n- Raccords muraux + tôlerie de finition  hors Forster\n- Pente mini 10° à respecter pour l’étanchéité\nLe calcul du dimensionnement de la structure porteuse est à la charge du fabricant.\nIl sera nécessaire de veiller à ce que la verrière dépasse la zone étanche (l’intérieur du bâtiment) afin d’éviter tout problème de drainage."
+    },
+    {
+      "id": "carre-8",
+      "titre": "Carré de 8 (portes CR avec ISEO)",
+      "emplacement": "configurations",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": []
+      },
+      "elements": [
+        "porte"
+      ],
+      "gras": false,
+      "texte": "- Carré de 8 non chiffré"
+    },
+    {
+      "id": "renfort-fb4",
+      "titre": "Renfort alu — FB4",
+      "emplacement": "inclus",
+      "gammes": [],
+      "gammesExclues": [],
+      "conditions": {
+        "FB": [
+          "4"
+        ]
+      },
+      "elements": [],
+      "gras": false,
+      "texte": "- Renfort alu (plats alu de renfort dans profilés)"
+    },
+    {
+      "id": "renfort-fb6",
+      "titre": "Renfort alu — FB6 (sauf Vario)",
+      "emplacement": "inclus",
+      "gammes": [],
+      "gammesExclues": [
+        "vario"
+      ],
+      "conditions": {
+        "FB": [
+          "6"
+        ]
+      },
+      "elements": [],
+      "gras": false,
+      "texte": "- Renfort alu (plats alu de renfort dans profilés)"
+    },
+    {
+      "id": "particularite-rc-unico-porte",
+      "titre": "Particularité RC Unico — Porte",
+      "emplacement": "inclus",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": []
+      },
+      "elements": [
+        "porte"
+      ],
+      "gras": false,
+      "texte": "- Plat acier usiné de 120x12 pour le montant serrure\n- Adhésif TESA ACX+"
+    },
+    {
+      "id": "particularite-rc-unico-fixe",
+      "titre": "Particularité RC Unico — Fixe",
+      "emplacement": "inclus",
+      "gammes": [
+        "unico"
+      ],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": []
+      },
+      "elements": [
+        "fixe"
+      ],
+      "gras": false,
+      "texte": "- Adhésif TESA ACX+"
+    },
+    {
+      "id": "mise-en-oeuvre-feu",
+      "titre": "Mise en œuvre — châssis feu",
+      "emplacement": "fin",
+      "gammes": [],
+      "gammesExclues": [],
+      "conditions": {
+        "E": [],
+        "EI": []
+      },
+      "elements": [],
+      "gras": true,
+      "texte": "La Mise en œuvre (poignées, verrouillage, vitrage, …) des Châssis Feu doit être conforme aux Procès-Verbaux ou rapport d’essai de références.\nDans le cas contraire toutes modifications de la mise en œuvre devront faire l’objet d’un AVIS DE CHANTIER à votre charge et sous-réserve de l’acceptation d’EFECTIS.\nToutes modifications : type d’ouverture (intérieur/extérieur), sens (gauche /droit), épaisseur de vitrage, peuvent entraîner des changements de conception et/ou de PV.\nVeuillez préciser ces changements avant la mise en commande."
+    },
+    {
+      "id": "mise-en-oeuvre-effraction",
+      "titre": "Mise en œuvre — effraction / pare-balle",
+      "emplacement": "fin",
+      "gammes": [],
+      "gammesExclues": [],
+      "conditions": {
+        "RC": [],
+        "FB": []
+      },
+      "elements": [],
+      "gras": false,
+      "texte": "La mise en œuvre (poignées, verrouillage, vitrage, …) des châssis doit être conforme aux rapport d'essai de référence.\nDans le cas contraire, toutes modifications de la mise en œuvre devront faire l'objet d'une validation par le bureau de contrôle.\nToutes modifications : type d'ouverture (intérieur/extérieur), sens (gauche/droite), épaisseur de vitrage, peuvent entraîner des changements de conception.\nVeuillez préciser ces changements avant la mise en commande."
+    }
+  ]
+}
