@@ -12,7 +12,7 @@ L'utilisateur décrit une configuration de menuiserie (fenêtres, portes, façad
 l'application rédige en temps réel un commentaire technique formaté, prêt à être copié dans un e-mail ou un document Word
 (Arial 14, titres en gras, puces conservées).
 
-⚖ Le Word parle d'« application de bureau » ; le prompt de GitHub Pages. Retenu : application web (fonctionne dans tout navigateur, rien à installer).
+⚖ Le Word parle d'« application de bureau » ; le prompt de GitHub Pages. Retenu : application web **installable sur Windows** depuis Edge ou Chrome (fenêtre propre, icône dans le menu Démarrer, fonctionne hors connexion, mises à jour automatiques, sans droits administrateur).
 
 ## 2. Écran
 

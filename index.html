@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Commentaires</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d3f5e'/%3E%3Cpath d='M8 10h16M8 16h16M8 22h10' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1d3f5e">
+  <link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="entete">
     <h1>Commentaires</h1>
     <div class="actions">
+      <button type="button" class="btn" id="btn-installer" hidden title="Installer Commentaires comme une application sur ce poste">Installer l'application</button>
       <a class="btn discret" href="admin.html">Panneau de contrôle</a>
       <button type="button" class="btn" id="btn-reinit">Réinitialiser</button>
       <button type="button" class="btn principal" id="btn-copier" disabled>Copier le commentaire</button>
@@ -48,5 +52,6 @@
   <script src="js/donnees.js"></script>
   <script src="js/formulaire.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

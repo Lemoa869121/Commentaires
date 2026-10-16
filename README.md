@@ -16,6 +16,17 @@ Cahier des charges complet : [CAHIER_DES_CHARGES.md](CAHIER_DES_CHARGES.md).
 > GitHub Pages sur un dépôt **privé** demande un abonnement GitHub payant (Pro, Team ou Enterprise).
 > Avec un compte gratuit, il faut rendre le dépôt public. Les listes et les textes réglementaires deviennent alors visibles par tous.
 
+## Installer sur un poste Windows
+
+Une fois le site en ligne, l'application s'installe comme un logiciel, sans droits administrateur :
+
+1. Ouvrez l'adresse du site dans **Microsoft Edge** ou **Google Chrome**.
+2. Cliquez sur le bouton **Installer l'application** en haut de la page. Vous pouvez aussi cliquer sur l'icône d'installation à droite de la barre d'adresse, ou passer par le menu **…** → *Applications* → *Installer Commentaires*.
+3. Commentaires s'ouvre alors dans sa propre fenêtre et apparaît dans le menu Démarrer. Vous pouvez l'épingler à la barre des tâches.
+
+L'application fonctionne aussi hors connexion, avec la dernière version consultée. Les mises à jour, y compris celles du Panneau de contrôle, arrivent automatiquement au lancement suivant quand le poste est connecté.
+Pour la désinstaller : clic droit sur l'icône dans le menu Démarrer → *Désinstaller*.
+
 ## Modifier les listes et les textes
 
 **Sans toucher au code :** dans l'application, ouvrez **Panneau de contrôle**, puis saisissez la clé d'accès. La marche à suivre pour créer la clé figure sur la page. Cliquez ensuite sur **Enregistrer**.
@@ -42,6 +53,9 @@ js/formulaire.js     construction du formulaire à partir de config.json
 js/donnees.js        chargement des données
 js/app.js            démarrage, aperçu, copie, réinitialisation
 js/admin.js          panneau de contrôle (enregistrement via l'API GitHub)
+js/pwa.js            installation sur le poste (bouton « Installer »)
+sw.js                fonctionnement hors connexion et mises à jour
+manifest.webmanifest nom, icônes et couleurs de l'application installée
 ```
 
 Pour tester sur un poste : `python3 -m http.server` dans ce dossier, puis ouvrez http://localhost:8000.
