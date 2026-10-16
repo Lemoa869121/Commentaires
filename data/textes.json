@@ -1,6 +1,33 @@
 {
-  "version": 1,
+  "version": 2,
   "textes": [
+    {
+      "id": "isolation-non-isolee",
+      "titre": "Isolation — Presto et Norm",
+      "gammes": [
+        "presto",
+        "norm"
+      ],
+      "texte": "- Série non isolée",
+      "emplacement": "configurations-debut",
+      "gammesExclues": [],
+      "conditions": {},
+      "elements": [],
+      "gras": false
+    },
+    {
+      "id": "isolation-isolee",
+      "titre": "Isolation — Unico",
+      "gammes": [
+        "unico"
+      ],
+      "texte": "- Série isolée - avec rupture de pont thermique",
+      "emplacement": "configurations-debut",
+      "gammesExclues": [],
+      "conditions": {},
+      "elements": [],
+      "gras": false
+    },
     {
       "id": "fuego-feu",
       "titre": "Fuego light — E / EI",

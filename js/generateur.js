@@ -36,7 +36,7 @@
       cond, numRapport: '', numPV: '',
       types, vantaux: '', vantauxGauche: '', vantauxDroite: '',
       env: { imposte: { on: false }, fixe: { on: false, pos: '' }, murRideau: { on: false }, structure: { on: false, mat: '' } },
-      conf: { isolation: '', seuil: '', pose: '', ouverture: '', sens: '', parclose: '', joint: '', raccord: '' },
+      conf: { seuil: '', pose: '', ouverture: '', sens: '', parclose: '', joint: '', raccord: '' },
       remp: {
         ensemble: false, chassis: remplissageVide(), porte: remplissageVide(), fixe: remplissageVide(),
         imposte: remplissageVide(), murRideau: remplissageVide(), aConfirmer: false, selonPV: false
@@ -206,7 +206,8 @@
       const items = [];
       const c = s.conf;
       const v = (id, val) => dans(val, L(cfg, id));
-      if (v('isolation', c.isolation)) items.push(li(c.isolation));
+      // Isolation : écrite automatiquement selon la gamme (textes « en tête de Configurations »).
+      textesPour('configurations-debut', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
       if (v('seuil', c.seuil)) items.push(li('Seuil : ' + c.seuil));
       if (v('pose', c.pose)) items.push(li('Pose : ' + c.pose));
       if (R.ouvrant(s, cfg)) {

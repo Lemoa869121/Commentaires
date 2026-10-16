@@ -44,7 +44,8 @@ Fenêtre, Soufflet, Projection, Porte, Mur rideau, Verrière, Coulissant, Replia
 - Gamme Thermfix Light : « Sur structure » est présélectionné au choix de la gamme (modifiable) et le texte ajoute « (à votre charge) ».
 
 ### Bloc 5 — Configuration
-- Isolation (Série isolée – avec rupture de pont thermique / Série non isolée) · Seuil (Automatique, Suisse, Joint balais).
+- Seuil (Automatique, Suisse, Joint balais).
+- Plus de champ « Isolation » : la phrase s'écrit automatiquement en tête de « Configurations » — Presto et Norm → « Série non isolée » ; Unico → « Série isolée - avec rupture de pont thermique » ; autres gammes → rien.
 - Pose (Applique, Tunnel, Dans un mur rideau, Feuillure).
 - Ouverture (Intérieur/Extérieur) et Sens (Din droite/Din gauche) : ⚖ visibles dès qu'un type ouvrant est coché (« sauf si fixe »).
 - Parclose (Aluminium, Acier, Plats acier) · Joint (EPDM, Silicone).
@@ -91,7 +92,7 @@ Case « Ajouter un avis de chantier » → Dimensions (hauteur, largeur), Cintra
 
 **Conditions :**                                  ← textes réglementaires (⚖ ici, comme le modèle Word)
 **Rapport d'essai / PV :**
-**Configurations :**                              ← isolation, seuil, pose, ouverture, sens, parclose, joints, raccord
+**Configurations :**                              ← isolation (auto selon la gamme), seuil, pose, ouverture, sens, parclose, joints, raccord
 **Remplissages :**
 **Inclus dans l'offre :**                         ← paumelles, anti-pince, Quincailleries (o Vantail principal / • …), renforts
 **Hors gamme Forster :**
@@ -120,6 +121,8 @@ Repris mot pour mot du document Word, modifiables depuis le panneau de contrôle
 | Renfort alu (plats alu de renfort dans profilés) | FB4 ; FB6 sauf Thermfix Vario | Inclus dans l'offre |
 | Particularité RC Unico Porte : plat acier usiné 120x12 + Adhésif TESA ACX+ | Unico + RC + Porte | Inclus dans l'offre |
 | Particularité RC Unico Fixe : Adhésif TESA ACX+ | Unico + RC + Fixe | Inclus dans l'offre |
+| Série non isolée | Presto ou Norm | Configurations (en tête) |
+| Série isolée - avec rupture de pont thermique | Unico | Configurations (en tête) |
 | Carré de 8 non chiffré | Unico + RC + Porte (serrure ISEO) | Configurations |
 | Mise en œuvre châssis feu (EFECTIS), en gras | E ou EI | Fin |
 | Mise en œuvre effraction / pare-balle (bureau de contrôle) | RC ou FB | Fin |

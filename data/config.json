@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "gammes": [
     {
       "id": "presto",
@@ -171,13 +171,6 @@
         "Acier",
         "Bois",
         "Autre"
-      ]
-    },
-    "isolation": {
-      "libelle": "Isolation",
-      "valeurs": [
-        "Série isolée - avec rupture de pont thermique",
-        "Série non isolée"
       ]
     },
     "seuil": {

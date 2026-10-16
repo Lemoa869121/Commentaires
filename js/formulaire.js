@@ -188,7 +188,6 @@
 
       bloc(5, 'Configuration',
         cols([
-          champ('Isolation', sel('conf.isolation', L('isolation'))),
           champ('Seuil', sel('conf.seuil', L('seuil'))),
           champ('Pose', sel('conf.pose', L('pose'))),
           quand('ouvrant', champ('Ouverture', sel('conf.ouverture', L('ouverture')))),

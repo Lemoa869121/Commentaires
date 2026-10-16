@@ -244,6 +244,7 @@
   // ---------- onglet Textes ----------
   const EMPLACEMENTS = [
     ['conditions', 'Section « Conditions »'],
+    ['configurations-debut', 'Section « Configurations » (en tête)'],
     ['configurations', 'Section « Configurations »'],
     ['inclus', "Section « Inclus dans l'offre »"],
     ['fin', "Fin du commentaire (avant l'avis de chantier)"]
