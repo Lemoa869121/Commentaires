@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "gammes": [
     {
       "id": "presto",
@@ -355,7 +355,8 @@
         "Serrure antipanique",
         "Ventus pour soufflet",
         "Sélecteur de fermeture",
-        "Manchonnage"
+        "Manchonnage",
+        "Bandeau ventouses"
       ]
     }
   },
