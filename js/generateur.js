@@ -346,10 +346,11 @@
       if (!vide(v.bequille.hauteur)) {
         const ref = d(v.bequille.hauteurRef, 'hauteurPoigneeRef');
         out.push(li('Hauteur de béquille : ' + net(v.bequille.hauteur) + ' mm' + (ref ? ' ' + ref : ''), 1));
-      } else {
+      } else if (R.typeActif(s, 'fenetre', cfg)) {
         out.push(li("Attention, béquille au milieu de l'ouvrant par défaut", 1, true));
       }
-      out.push(li('Hauteur de la béquille à valider avant chaque commande.', 1, true));
+      // Mentions en gras : uniquement quand Fenêtre est sélectionné.
+      if (R.typeActif(s, 'fenetre', cfg)) out.push(li('Hauteur de la béquille à valider avant chaque commande.', 1, true));
     }
     if (v.baton.on) {
       const c = cotesTexte(v.baton);

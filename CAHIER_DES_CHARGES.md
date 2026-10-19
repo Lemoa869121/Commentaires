@@ -69,7 +69,7 @@ Visible si Porte, Fenêtre ou Soufflet ; masqué si seul Fixe, si EI120 actif, s
 - Serrure : 1/2/3 points, pêne (Demi-tour, Rouleau), fonctionnement (Mécanique, Motorisée, À béquille contrôlée), antipanique (B, D, E).
 - Ferme-porte : Applique / Encastré + modèle (ITS, TS, DC) + zone de texte « Précision » qui complète le choix.
 - Manœuvre (cumulable) : Béquille (Intérieur/Extérieur, Inox/Alu) · Bâton de maréchal (→ « Hors gamme Forster » automatiquement) · Push-barre (Inclus dans l'offre / Hors gamme Forster).
-- Hauteur de béquille : valeur en mm + référence (à partir du sol, GH, bas du dormant, bas de l'ouvrant). Avec béquille : mentions en gras « Attention, béquille au milieu de l'ouvrant par défaut » (si aucune hauteur) et « Hauteur de la béquille à valider avant chaque commande. »
+- Hauteur de béquille : valeur en mm + référence (à partir du sol, GH, bas du dormant, bas de l'ouvrant). Avec béquille **et seulement si Fenêtre est coché** : mentions en gras « Attention, béquille au milieu de l'ouvrant par défaut » (si aucune hauteur) et « Hauteur de la béquille à valider avant chaque commande. »
 - Rosaces (Intérieur/Extérieur, Alu/Inox, Sécurité) · Pions anti-dégondage · Goujons thermiques 1/3 · Profil préentaillé (Serrure, Ferme-porte) · Ventouses (bouton « Écrire… » → fenêtre de texte libre).
 
 ### Bloc 9 — Quincaillerie vantail secondaire
