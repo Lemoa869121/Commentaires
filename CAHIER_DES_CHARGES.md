@@ -132,6 +132,7 @@ Repris mot pour mot du document Word, modifiables depuis le panneau de contrôle
 - Page `admin.html`, protégée par une **clé d'accès** : un jeton GitHub personnel limité à ce dépôt (droit « Contents : lecture et écriture »). Sans clé, on peut consulter mais pas enregistrer.
 - Permet d'ajouter, modifier, supprimer : gammes et séries, niveaux de conditions, sous-options de types, toutes les listes déroulantes, et les textes automatiques (contenu et déclencheurs).
 - Permet d'**ajouter de nouvelles listes déroulantes** : libellé, valeurs, bloc du formulaire où elle apparaît, section du commentaire où la valeur s'écrit (Configurations, Inclus dans l'offre, Hors gamme Forster, À la charge du métallier, ou sa propre section).
+- Permet d'**ajouter des groupes de cases à cocher** : libellé, cases (une par ligne), bloc du formulaire, section du commentaire, et écriture « une puce par case cochée » ou « une ligne Libellé : a, b ».
 - Enregistrer = commit dans `data/config.json` / `data/textes.json`. Visible **immédiatement** dans le navigateur de l'administrateur, et pour tous dès que GitHub Pages a republié (≈ 1 min).
 
 ## 7. Règles générales

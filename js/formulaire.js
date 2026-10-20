@@ -275,6 +275,11 @@
       const b = formulaire[(Number(l.bloc) || 5) - 1] || formulaire[4];
       b.querySelector('.corps').appendChild(champ(l.libelle, sel('perso.' + l.id, l.valeurs || [], { label: l.libelle })));
     });
+    (cfg.casesPerso || []).forEach(c => {
+      const b = formulaire[(Number(c.bloc) || 5) - 1] || formulaire[4];
+      b.querySelector('.corps').appendChild(champ(c.libelle,
+        h('div', { class: 'groupe' }, (c.valeurs || []).map(v => multi('cases.' + c.id, v, v)))));
+    });
 
     racine.innerHTML = '';
     formulaire.forEach(b => racine.appendChild(b));

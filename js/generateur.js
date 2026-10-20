@@ -19,11 +19,30 @@
     (cfg.listesPerso || []).forEach(l => { o[l.id] = ''; });
     return o;
   }
+  // Groupes de cases à cocher ajoutés depuis le panneau de contrôle.
+  function casesVides(cfg) {
+    const o = {};
+    (cfg.casesPerso || []).forEach(c => { o[c.id] = []; });
+    return o;
+  }
+  function cochees(s, c) {
+    const sel = (s.cases || {})[c.id] || [];
+    return (c.valeurs || []).filter(v => sel.includes(v));
+  }
+  // Lignes d'un groupe de cases : une puce par case, ou une seule ligne « Libellé : a, b ».
+  function lignesCases(c, vals, propre) {
+    if (!vals.length) return [];
+    if (c.format === 'ligne') return [li(propre ? vals.join(', ') : c.libelle + ' : ' + vals.join(', '))];
+    return vals.map(v => li(v));
+  }
   function lignesPerso(s, cfg, emplacement) {
-    return (cfg.listesPerso || []).filter(l => l.section === emplacement).map(l => {
+    const listes = (cfg.listesPerso || []).filter(l => l.section === emplacement).map(l => {
       const v = dans((s.perso || {})[l.id], l.valeurs || []);
       return v ? li(emplacement === 'propre' ? v : l.libelle + ' : ' + v) : null;
     }).filter(Boolean);
+    const cases = [];
+    (cfg.casesPerso || []).filter(c => c.section === emplacement).forEach(c => cases.push(...lignesCases(c, cochees(s, c), false)));
+    return listes.concat(cases);
   }
 
   function etatInitial(cfg) {
@@ -63,6 +82,7 @@
       },
       charge: [],
       perso: persoVide(cfg),
+      cases: casesVides(cfg),
       avis: { on: false, hauteur: '', largeur: '', cintrage: false, serrure: false, texte: '' }
     };
   }
@@ -297,6 +317,9 @@
     (cfg.listesPerso || []).filter(l => l.section === 'propre').forEach(l => {
       const v = dans((s.perso || {})[l.id], l.valeurs || []);
       if (v) section(l.libelle + ' :', [li(v)]);
+    });
+    (cfg.casesPerso || []).filter(c => c.section === 'propre').forEach(c => {
+      section(c.libelle + ' :', lignesCases(c, cochees(s, c), true));
     });
 
     // --- Mise en œuvre (textes de fin) ---

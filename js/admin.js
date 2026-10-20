@@ -199,11 +199,26 @@
       h('div', { class: 'champ' }, h('span', { class: 'lbl' }, l.libelle), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
     p.appendChild(grille);
 
-    // --- Listes ajoutées ---
-    cfg.listesPerso = cfg.listesPerso || [];
-    p.appendChild(h('h3', {}, 'Listes déroulantes ajoutées'));
-    p.appendChild(h('p', { class: 'note' }, 'Chaque liste ajoutée apparaît dans le bloc choisi du formulaire. La valeur sélectionnée s’écrit dans la section choisie du commentaire, sous la forme « Libellé : valeur ».'));
-    cfg.listesPerso.forEach((l, i) => p.appendChild(h('div', { class: 'carte-admin' },
+    // --- Listes déroulantes et cases à cocher ajoutées ---
+    blocPerso(p, 'listesPerso', {
+      titre: 'Listes déroulantes ajoutées',
+      note: 'Chaque liste ajoutée apparaît dans le bloc choisi du formulaire. La valeur sélectionnée s’écrit dans la section choisie du commentaire, sous la forme « Libellé : valeur ».',
+      mot: 'la liste', bouton: '+ Ajouter une liste déroulante',
+      question: 'Libellé de la nouvelle liste déroulante (ex. Couleur, Poignée…) :', prefixe: 'perso-', valeurs: 'Valeurs (une par ligne)'
+    });
+    blocPerso(p, 'casesPerso', {
+      titre: 'Cases à cocher ajoutées',
+      note: 'Chaque groupe apparaît dans le bloc choisi du formulaire, avec une case par ligne. Les cases cochées s’écrivent dans la section choisie : une puce par case, ou une seule ligne « Libellé : a, b ».',
+      mot: 'le groupe de cases', bouton: '+ Ajouter des cases à cocher',
+      question: 'Libellé du nouveau groupe de cases à cocher (ex. Options, Accessoires…) :', prefixe: 'cases-', valeurs: 'Cases (une par ligne)', format: true
+    });
+  }
+
+  function blocPerso(p, cle, o) {
+    const tab = cfg[cle] = cfg[cle] || [];
+    p.appendChild(h('h3', {}, o.titre));
+    p.appendChild(h('p', { class: 'note' }, o.note));
+    tab.forEach((l, i) => p.appendChild(h('div', { class: 'carte-admin' },
       h('div', { class: 'rangee' },
         h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Libellé'), texte(l.libelle, v => { l.libelle = v; })),
         h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Placée dans le bloc'),
@@ -212,24 +227,30 @@
         h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Écrite dans la section'),
           h('select', { onchange: e => { l.section = e.target.value; majEtat(); } },
             SECTIONS_PERSO.map(([v, nom]) => h('option', { value: v, selected: l.section === v ? 'selected' : null }, nom)))),
+        o.format ? h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Écriture'),
+          h('select', { onchange: e => { l.format = e.target.value; majEtat(); } },
+            [['puces', 'Une puce par case cochée'], ['ligne', 'Une ligne « Libellé : a, b »']].map(([v, nom]) =>
+              h('option', { value: v, selected: (l.format || 'puces') === v ? 'selected' : null }, nom)))) : null,
         h('span', { class: 'espace' }),
-        h('button', { type: 'button', class: 'btn petit', title: 'Monter', onclick: () => deplacer(cfg.listesPerso, i, -1, afficherListes) }, '↑'),
-        h('button', { type: 'button', class: 'btn petit', title: 'Descendre', onclick: () => deplacer(cfg.listesPerso, i, 1, afficherListes) }, '↓'),
+        h('button', { type: 'button', class: 'btn petit', title: 'Monter', onclick: () => deplacer(tab, i, -1, afficherListes) }, '↑'),
+        h('button', { type: 'button', class: 'btn petit', title: 'Descendre', onclick: () => deplacer(tab, i, 1, afficherListes) }, '↓'),
         h('button', { type: 'button', class: 'btn petit danger', onclick: () => {
-          if (confirm('Supprimer la liste « ' + l.libelle + ' » ?')) { cfg.listesPerso.splice(i, 1); afficherListes(); majEtat(); }
+          if (confirm('Supprimer ' + o.mot + ' « ' + l.libelle + ' » ?')) { tab.splice(i, 1); afficherListes(); majEtat(); }
         } }, 'Supprimer')),
-      h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Valeurs (une par ligne)'), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
+      h('div', { class: 'champ' }, h('span', { class: 'lbl' }, o.valeurs), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
     p.appendChild(h('button', { type: 'button', class: 'btn', onclick: () => {
-      const nom = prompt('Libellé de la nouvelle liste déroulante (ex. Couleur, Poignée…) :');
+      const nom = prompt(o.question);
       if (!nom || !nom.trim()) return;
-      let base = 'perso-' + (nom.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'liste');
+      const base = o.prefixe + (nom.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'liste');
       let id = base, n = 2;
-      while (cfg.listesPerso.some(x => x.id === id)) id = base + '-' + n++;
-      cfg.listesPerso.push({ id, libelle: nom.trim(), bloc: 5, section: 'configurations', valeurs: [] });
+      while (tab.some(x => x.id === id)) id = base + '-' + n++;
+      const nouveau = { id, libelle: nom.trim(), bloc: 5, section: 'configurations', valeurs: [] };
+      if (o.format) nouveau.format = 'puces';
+      tab.push(nouveau);
       afficherListes(); majEtat();
-      const zones = p.querySelectorAll('.carte-admin:last-of-type textarea');
-      if (zones.length) zones[zones.length - 1].focus();
-    } }, '+ Ajouter une liste déroulante'));
+      const carte = [...p.querySelectorAll('.carte-admin')].find(c => c.querySelector('input') && c.querySelector('input').value === nouveau.libelle);
+      if (carte) carte.querySelector('textarea').focus();
+    } }, o.bouton));
   }
   const BLOCS = ['Gamme et série', 'Conditions', "Type d'ouvrage", 'Environnement', 'Configuration', 'Remplissage', 'Ferrage',
     'Quincaillerie — vantail principal', 'Quincaillerie — vantail secondaire', 'À la charge du métallier', 'Avis de chantier'];
@@ -333,6 +354,7 @@
     if (cfg.conditions.some(c => !c.niveaux.length)) return 'Chaque condition doit avoir au moins un niveau.';
     if (txt.textes.some(t => !t.titre.trim())) return 'Un texte automatique n’a pas de titre.';
     if ((cfg.listesPerso || []).some(l => !l.libelle.trim())) return 'Une liste ajoutée n’a pas de libellé.';
+    if ((cfg.casesPerso || []).some(c => !c.libelle.trim())) return 'Un groupe de cases ajouté n’a pas de libellé.';
     return '';
   }
   async function enregistrer() {

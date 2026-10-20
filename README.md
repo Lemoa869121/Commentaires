@@ -36,7 +36,7 @@ Les modifications apparaissent tout de suite dans votre navigateur, et pour tous
 
 | Fichier | Contenu |
 |---|---|
-| `data/config.json` | gammes, séries, conditions, types, toutes les listes déroulantes (y compris celles ajoutées depuis le panneau) |
+| `data/config.json` | gammes, séries, conditions, types, toutes les listes déroulantes, et les listes et cases à cocher ajoutées depuis le panneau |
 | `data/textes.json` | textes automatiques (réglementaires, mise en œuvre, renforts…) et leurs déclencheurs |
 
 Dans un texte, une ligne qui commence par `- ` devient une puce. Deux espaces avant le `-` ajoutent un niveau de retrait. `**mot**` met le mot en gras.
