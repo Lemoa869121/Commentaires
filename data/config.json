@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "gammes": [
     {
       "id": "presto",
@@ -360,5 +360,15 @@
       ]
     }
   },
-  "listesPerso": []
+  "listesPerso": [
+    {
+      "id": "perso-bandeaux-ventouses",
+      "libelle": "Bandeaux ventouses",
+      "bloc": 5,
+      "section": "inclus",
+      "valeurs": [
+        "Fournis"
+      ]
+    }
+  ]
 }
