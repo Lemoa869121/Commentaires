@@ -117,8 +117,12 @@
   const li = (t, niv = 0, gras = false) => ({ k: 'li', t, niv, gras });
   const p = (t, gras = false) => ({ k: 'p', t, gras });
 
+  // Texte d'une case « en place » (modifiable depuis le panneau de contrôle).
+  let CFG_COURANT = null;
+  const T = cle => R.caseTexte(CFG_COURANT, cle);
+
   function cotesTexte(o) {
-    return [o.int ? 'intérieur' : '', o.ext ? 'extérieur' : ''].filter(Boolean).join(' + ');
+    return [o.int ? T('cote.int') : '', o.ext ? T('cote.ext') : ''].filter(Boolean).join(' + ');
   }
 
   // Convertit un texte de bibliothèque (« - » / indentation de 2 espaces) en lignes.
@@ -146,6 +150,8 @@
 
   // ---------- générateur ----------
   function generer(s, cfg, textes) {
+    CFG_COURANT = cfg;
+    s = R.appliquerMasques(s, cfg);
     const g = R.gamme(s, cfg);
     const serie = R.serieValide(s, cfg);
     const types = R.typesActifs(s, cfg);
@@ -174,15 +180,15 @@
       const avec = [];
       if (s.env.fixe.on) {
         const pos = dans(s.env.fixe.pos, L(cfg, 'environnementFixe'));
-        avec.push('Fixe' + (pos ? ' ' + minus(pos) : ''));
+        avec.push(T('env.fixe') + (pos ? ' ' + minus(pos) : ''));
       }
-      if (s.env.imposte.on) avec.push('Imposte');
+      if (s.env.imposte.on) avec.push(T('env.imposte'));
       const suite = [];
       if (avec.length) suite.push('avec ' + avec.join(' + '));
-      if (s.env.murRideau.on) suite.push('dans un mur rideau');
+      if (s.env.murRideau.on) suite.push(T('env.murRideau'));
       if (s.env.structure.on) {
         const mat = dans(s.env.structure.mat, L(cfg, 'structure'));
-        suite.push('sur structure' + (mat ? ' ' + minus(mat) : '') + (R.light(s) ? ' (à votre charge)' : ''));
+        suite.push(T('env.structure') + (mat ? ' ' + minus(mat) : '') + (R.light(s) ? ' (à votre charge)' : ''));
       }
       if (types.length) {
         let l = 'Ensemble ' + types.map(libType).join(' + ');
@@ -251,11 +257,11 @@
       };
       R.sectionsRemplissage(s, cfg).forEach(k => {
         const r = s.remp[k];
-        [['vitrage', 'Vitrage'], ['panneau', R.feu(s, cfg) ? 'Panneau feu' : 'Panneau']].forEach(([cle, nom]) => {
+        [['vitrage', T('remp.vitrage')], ['panneau', T('remp.panneau') + (R.feu(s, cfg) ? ' feu' : '')]].forEach(([cle, nom]) => {
           if (!r[cle].on) return;
           let l = nom + (vide(r[cle].ep) ? '' : ' ' + net(r[cle].ep) + ' mm') + ' ' + LIEU[k];
-          if (s.remp.aConfirmer) l += cle === 'vitrage' ? ' — par défaut à confirmer avec le verrier' : ' — par défaut à confirmer';
-          if (s.remp.selonPV) l += ' — composition à valider suivant le PV';
+          if (s.remp.aConfirmer && T('remp.aConfirmer')) l += ' — ' + (cle === 'vitrage' ? T('remp.aConfirmer') : T('remp.aConfirmer').replace(/ avec le verrier$/, ''));
+          if (s.remp.selonPV && T('remp.selonPV')) l += ' — ' + T('remp.selonPV');
           items.push(li(l));
         });
       });
@@ -282,11 +288,11 @@
       // Quincailleries
       const quinc = [];
       if (R.quincVisible(s, cfg)) {
-        const vp = vantailPrincipal(s, cfg, horsGamme);
+        const vp = vantailPrincipal(s, cfg, horsGamme).concat(lignesPerso(s, cfg, 'vp'));
         if (vp.length) { quinc.push(li('Vantail principal :', 1)); vp.forEach(x => { x.niv += 2; quinc.push(x); }); }
       }
       if (R.vsVisible(s, cfg)) {
-        const vs = vantailSecondaire(s, cfg, horsGamme);
+        const vs = vantailSecondaire(s, cfg, horsGamme).concat(lignesPerso(s, cfg, 'vs'));
         if (vs.length) { quinc.push(li('Vantail secondaire :', 1)); vs.forEach(x => { x.niv += 2; quinc.push(x); }); }
       }
       if (R.quincFenetreVisible(s, cfg)) {
@@ -334,8 +340,8 @@
       if (!vide(a.hauteur)) dims.push('hauteur ' + net(a.hauteur) + ' mm');
       if (!vide(a.largeur)) dims.push('largeur ' + net(a.largeur) + ' mm');
       if (dims.length) avis.push(li('Dimensions : ' + dims.join(' × ')));
-      if (a.cintrage) avis.push(li('Cintrage'));
-      if (a.serrure) avis.push(li('Serrure'));
+      if (a.cintrage) avis.push(li(T('avis.cintrage')));
+      if (a.serrure) avis.push(li(T('avis.serrure')));
       String(a.texte || '').split(/\r?\n/).forEach(l => {
         if (!l.trim()) return;
         const m = l.match(/^(\s*)(?:[-•o▪*]\s+)?(.*)$/);
@@ -357,15 +363,15 @@
       if (d(v.serrure.pene, 'serrurePene')) parts.push('pêne ' + minus(v.serrure.pene));
       if (d(v.serrure.fonct, 'serrureFonctionnement')) parts.push(minus(v.serrure.fonct));
       if (d(v.serrure.antipanique, 'antipanique')) parts.push('antipanique ' + v.serrure.antipanique);
-      out.push(li('Serrure' + (parts.length ? ' ' + parts.join(', ') : '')));
+      out.push(li(T('vp.serrure') + (parts.length ? ' ' + parts.join(', ') : '')));
     }
-    if (v.fermePorte.on) out.push(li(fermePorte(v.fermePorte, cfg)));
+    if (v.fermePorte.on) out.push(li(fermePorte(v.fermePorte, cfg, 'vp.fermePorte')));
     if (v.bequille.on) {
       const parts = [];
       const c = cotesTexte(v.bequille);
       if (c) parts.push(c);
       if (d(v.bequille.finition, 'finition')) parts.push(minus(v.bequille.finition));
-      out.push(li('Béquille' + (parts.length ? ' ' + parts.join(', ') : '')));
+      out.push(li(T('vp.bequille') + (parts.length ? ' ' + parts.join(', ') : '')));
       if (!vide(v.bequille.hauteur)) {
         const ref = d(v.bequille.hauteurRef, 'hauteurPoigneeRef');
         out.push(li('Hauteur de béquille : ' + net(v.bequille.hauteur) + ' mm' + (ref ? ' ' + ref : ''), 1));
@@ -377,70 +383,70 @@
     }
     if (v.baton.on) {
       const c = cotesTexte(v.baton);
-      horsGamme.push('Bâton de maréchal' + (c ? ' ' + c : ''));
+      horsGamme.push(T('vp.baton') + (c ? ' ' + c : ''));
     }
     if (v.push.on) {
-      if (v.push.mode === 'hors') horsGamme.push('Push barre');
-      else out.push(li('Push barre'));
+      if (v.push.mode === 'hors') horsGamme.push(T('vp.push'));
+      else out.push(li(T('vp.push')));
     }
-    if (v.rosaces.on) out.push(li(rosaces(v.rosaces, cfg)));
-    if (v.pions.on) out.push(li('Pions anti-dégondage'));
+    if (v.rosaces.on) out.push(li(rosaces(v.rosaces, cfg, 'vp.rosaces')));
+    if (v.pions.on) out.push(li(T('vp.pions')));
     if (v.goujons.on) {
       const nb = d(v.goujons.nb, 'goujons');
-      out.push(li('Goujons thermiques' + (nb ? ' : ' + nb : '')));
+      out.push(li(T('vp.goujons') + (nb ? ' : ' + nb : '')));
     }
     if (v.profil.on) {
-      const parts = [v.profil.serrure ? 'serrure' : '', v.profil.fermePorte ? 'ferme-porte' : ''].filter(Boolean);
-      out.push(li('Profil préentaillé' + (parts.length ? ' : ' + parts.join(' + ') : '')));
+      const parts = [v.profil.serrure ? T('vp.profil.serrure') : '', v.profil.fermePorte ? T('vp.profil.fermePorte') : ''].filter(Boolean);
+      out.push(li(T('vp.profil') + (parts.length ? ' : ' + parts.join(' + ') : '')));
     }
     if (v.ventouses.on) {
       const lignes = String(v.ventouses.texte || '').split(/\r?\n/).map(x => x.trim()).filter(Boolean);
       if (lignes.length) lignes.forEach(x => out.push(li(x.replace(/^[-•o▪*]\s+/, ''))));
-      else out.push(li('Ventouses'));
+      else out.push(li(T('vp.ventouses')));
     }
     return out;
   }
 
   function vantailSecondaire(s, cfg, horsGamme) {
     const v = s.vs, out = [];
-    if (v.rosaces.on) out.push(li(rosaces(v.rosaces, cfg)));
+    if (v.rosaces.on) out.push(li(rosaces(v.rosaces, cfg, 'vs.rosaces')));
     if (v.cremone.on) {
       const type = dans(v.cremone.type, ['Encastrée', 'En applique']);
       const parts = [];
       if (type === 'Encastrée') {
-        const b = [v.cremone.haut ? 'haut' : '', v.cremone.bas ? 'bas' : ''].filter(Boolean);
+        const b = [v.cremone.haut ? T('haut') : '', v.cremone.bas ? T('bas') : ''].filter(Boolean);
         if (b.length) parts.push('à bascule ' + b.join(' + '));
       }
-      if (v.cremone.auto) parts.push('automatique');
-      if (v.cremone.antipanique) parts.push('antipanique');
+      if (v.cremone.auto) parts.push(T('vs.cremone.auto'));
+      if (v.cremone.antipanique) parts.push(T('vs.cremone.antipanique'));
       const det = parts.length ? (type === 'Encastrée' ? ' ' : ', ') + parts.join(', ') : '';
-      if (type === 'En applique') horsGamme.push('Crémone en applique (vantail secondaire)' + det);
-      else out.push(li('Crémone' + (type ? ' ' + minus(type) : '') + det));
+      if (type === 'En applique') horsGamme.push(T('vs.cremone') + ' en applique (vantail secondaire)' + det);
+      else out.push(li(T('vs.cremone') + (type ? ' ' + minus(type) : '') + det));
     }
     if (v.verrou.on) {
-      const b = [v.verrou.haut ? 'haut' : '', v.verrou.bas ? 'bas' : ''].filter(Boolean);
-      out.push(li('Verrouillage fin' + (b.length ? ' ' + b.join(' + ') : '')));
+      const b = [v.verrou.haut ? T('haut') : '', v.verrou.bas ? T('bas') : ''].filter(Boolean);
+      out.push(li(T('vs.verrou') + (b.length ? ' ' + b.join(' + ') : '')));
     }
-    if (v.gache.on) out.push(li('Gâche électrique'));
-    if (v.fermePorte.on) out.push(li(fermePorte(v.fermePorte, cfg)));
+    if (v.gache.on) out.push(li(T('vs.gache')));
+    if (v.fermePorte.on) out.push(li(fermePorte(v.fermePorte, cfg, 'vs.fermePorte')));
     return out;
   }
 
-  function fermePorte(fp, cfg) {
+  function fermePorte(fp, cfg, cle) {
     const t = dans(fp.type, L(cfg, 'fermePorteType'));
     const m = dans(fp.modele, L(cfg, 'fermePorteModele'));
     const choix = [t, m].filter(Boolean).join(' ');
     const det = [choix, net(fp.precision)].filter(Boolean).join(', ');
-    return 'Ferme-porte' + (det ? ' : ' + det : '');
+    return T(cle) + (det ? ' : ' + det : '');
   }
 
-  function rosaces(r, cfg) {
+  function rosaces(r, cfg, cle) {
     const parts = [];
     const c = cotesTexte(r);
     if (c) parts.push(c);
     if (dans(r.finition, L(cfg, 'finition'))) parts.push(minus(r.finition));
-    if (r.securite) parts.push('sécurité');
-    return 'Rosaces' + (parts.length ? ' ' + parts.join(', ') : '');
+    if (r.securite) parts.push(T('rosace.securite'));
+    return T(cle) + (parts.length ? ' ' + parts.join(', ') : '');
   }
 
   function estVide(m) {

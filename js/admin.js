@@ -186,7 +186,8 @@
     p.appendChild(h('h3', {}, "Types d'ouvrage"));
     p.appendChild(h('p', { class: 'note' }, 'Sous-options : une par ligne (laisser vide si aucune).'));
     cfg.types.forEach(t => p.appendChild(h('div', { class: 'carte-admin' },
-      h('div', { class: 'rangee' }, h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Libellé'), texte(t.nom, v => { t.nom = v; })), h('span', { class: 'id' }, 'id : ' + t.id)),
+      h('div', { class: 'rangee' }, h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Libellé'), texte(t.nom, v => { t.nom = v; })), h('span', { class: 'id' }, 'id : ' + t.id),
+        caseA('Afficher dans le formulaire', !t.masque, v => { if (v) delete t.masque; else t.masque = true; })),
       h('div', { class: 'champ' }, h('span', { class: 'lbl' }, 'Sous-options'), zoneListe(t.sousOptions || [], v => { t.sousOptions = v; }, 3)))));
   }
 
@@ -198,6 +199,9 @@
     Object.entries(cfg.listes).forEach(([id, l]) => grille.appendChild(h('div', { class: 'carte-admin' },
       h('div', { class: 'champ' }, h('span', { class: 'lbl' }, l.libelle), zoneListe(l.valeurs, v => { l.valeurs = v; })))));
     p.appendChild(grille);
+
+    // --- Cases à cocher en place ---
+    casesEnPlace(p);
 
     // --- Listes déroulantes et cases à cocher ajoutées ---
     blocPerso(p, 'listesPerso', {
@@ -211,6 +215,33 @@
       note: 'Chaque groupe apparaît dans le bloc choisi du formulaire, avec une case par ligne. Les cases cochées s’écrivent dans la section choisie : une puce par case, ou une seule ligne « Libellé : a, b ».',
       mot: 'le groupe de cases', bouton: '+ Ajouter des cases à cocher',
       question: 'Libellé du nouveau groupe de cases à cocher (ex. Options, Accessoires…) :', prefixe: 'cases-', valeurs: 'Cases (une par ligne)', format: true
+    });
+  }
+
+  function casesEnPlace(p) {
+    cfg.cases = cfg.cases || {};
+    p.appendChild(h('h3', {}, 'Cases à cocher en place'));
+    p.appendChild(h('p', { class: 'note' }, 'Libellé = ce qui s’affiche dans le formulaire. Texte = ce qui s’écrit dans le commentaire quand la case est cochée. ' +
+      'Décochez « Afficher » pour retirer une case du formulaire : elle n’apparaîtra plus dans le commentaire. Les types d’ouvrage se règlent dans l’onglet « Conditions et types », les cases « À la charge du métallier » dans la liste ci-dessus.'));
+    const parBloc = {};
+    window.Regles.CASES.forEach(c => { (parBloc[c.bloc] = parBloc[c.bloc] || []).push(c); });
+    Object.keys(parBloc).sort((a, b) => a - b).forEach(b => {
+      const tableau = h('div', { class: 'cases-place' },
+        h('div', { class: 'cp-entete' }, h('span', {}, 'Libellé (formulaire)'), h('span', {}, 'Texte (commentaire)'), h('span', {}, 'Afficher')));
+      parBloc[b].forEach(c => {
+        const reg = () => (cfg.cases[c.cle] = cfg.cases[c.cle] || {});
+        const actuel = cfg.cases[c.cle] || {};
+        const sansTexte = c.texte === '';
+        tableau.appendChild(h('div', { class: 'cp-ligne' + (actuel.visible === false ? ' masquee' : '') },
+          h('div', { class: 'champ' },
+            texte(actuel.libelle || c.libelle, v => { reg().libelle = v; }, { 'aria-label': 'Libellé ' + c.libelle }),
+            c.aide ? h('span', { class: 'unite' }, c.aide) : null),
+          sansTexte ? h('span', { class: 'unite' }, '— (pas de texte)') :
+            texte(actuel.texte != null ? actuel.texte : c.texte, v => { reg().texte = v; }, { 'aria-label': 'Texte ' + c.libelle }),
+          h('label', { class: 'chk' }, h('input', { type: 'checkbox', checked: actuel.visible !== false, 'aria-label': 'Afficher ' + c.libelle,
+            onchange: e => { reg().visible = e.target.checked; e.target.closest('.cp-ligne').classList.toggle('masquee', !e.target.checked); majEtat(); } }))));
+      });
+      p.appendChild(h('div', { class: 'carte-admin' }, h('strong', {}, 'Bloc ' + b + ' — ' + BLOCS[b - 1]), tableau));
     });
   }
 
@@ -257,6 +288,8 @@
   const SECTIONS_PERSO = [
     ['configurations', 'Configurations'],
     ['inclus', "Inclus dans l'offre"],
+    ['vp', "Inclus dans l'offre → Vantail principal"],
+    ['vs', "Inclus dans l'offre → Vantail secondaire"],
     ['horsGamme', 'Hors gamme Forster'],
     ['charge', 'À la charge du métallier'],
     ['propre', 'Sa propre section (titre = libellé)']

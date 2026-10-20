@@ -126,6 +126,11 @@
   // ---------- construction ----------
   function construire(racine, cfg) {
     const L = id => (cfg.listes[id] ? cfg.listes[id].valeurs : []);
+    // Cases « en place » : libellé et affichage réglables depuis le panneau de contrôle.
+    const C = cle => R.caseLibelle(cfg, cle);
+    const vis = cle => R.caseVisible(cfg, cle);
+    const ck = (cle, chemin, o) => (vis(cle) ? chk(chemin, C(cle), o) : null);
+    const el = (cle, ...details) => (vis(cle) ? element(cle, C(cle), ...details) : null);
     const avert = () => quand('ei120', h('div', { class: 'alerte', role: 'alert' },
       h('strong', {}, 'EI 120 sélectionné : '), 'seul le type « Fixe » est possible. Les autres types sont grisés et ne figurent pas dans le commentaire.'));
 
@@ -138,16 +143,16 @@
     const remplissage = (k, titre) => quand('remp_' + k, h('div', { class: 'sous-bloc' },
       h('h3', {}, titre),
       rangee(
-        h('div', { class: 'groupe' }, chk('remp.' + k + '.vitrage.on', 'Vitrage'),
+        h('div', { class: 'groupe' }, ck('remp.vitrage', 'remp.' + k + '.vitrage.on'),
           quand('on:remp.' + k + '.vitrage', txt('remp.' + k + '.vitrage.ep', { type: 'number', court: true, unite: 'mm', label: 'Épaisseur vitrage' }))),
-        h('div', { class: 'groupe' }, chk('remp.' + k + '.panneau.on', 'Panneau'),
+        h('div', { class: 'groupe' }, ck('remp.panneau', 'remp.' + k + '.panneau.on'),
           quand('on:remp.' + k + '.panneau', txt('remp.' + k + '.panneau.ep', { type: 'number', court: true, unite: 'mm', label: 'Épaisseur panneau' })))
       )));
 
     const cotesFinition = (base, avecSecurite) => [
-      rangee(chk(base + '.int', 'Intérieur'), chk(base + '.ext', 'Extérieur'),
+      rangee(ck('cote.int', base + '.int'), ck('cote.ext', base + '.ext'),
         sel(base + '.finition', L('finition'), { label: 'Finition' }),
-        avecSecurite ? chk(base + '.securite', 'Sécurité') : null)
+        avecSecurite ? ck('rosace.securite', base + '.securite') : null)
     ];
     const fermePorte = base => rangee(
       sel(base + '.type', L('fermePorteType'), { label: 'Pose du ferme-porte' }),
@@ -167,8 +172,8 @@
 
       bloc(3, "Type d'ouvrage",
         avert(),
-        h('div', { class: 'grille-types' }, cfg.types.map(t => chk('types.' + t.id + '.on', t.nom, { type: t.id }))),
-        cfg.types.filter(t => (t.sousOptions || []).length).map(t =>
+        h('div', { class: 'grille-types' }, cfg.types.filter(t => !t.masque).map(t => chk('types.' + t.id + '.on', t.nom, { type: t.id }))),
+        cfg.types.filter(t => !t.masque && (t.sousOptions || []).length).map(t =>
           quand('type:' + t.id, h('div', { class: 'sous-bloc' }, champ(t.nom, sel('types.' + t.id + '.sous', t.sousOptions, { label: t.nom }))))),
         rangee(
           quand('vantaux', champ('Nombre de vantaux', sel('vantaux', ['1', '2'], { label: 'Nombre de vantaux' }))),
@@ -178,11 +183,11 @@
       bloc(4, 'Environnement',
         note('Plusieurs choix possibles (ex. Fixe + Imposte).'),
         h('div', { class: 'liste-env' },
-          chk('env.imposte.on', 'Imposte', { fort: true }),
-          h('div', { class: 'groupe' }, chk('env.fixe.on', 'Fixe', { fort: true }),
+          ck('env.imposte', 'env.imposte.on', { fort: true }),
+          vis('env.fixe') && h('div', { class: 'groupe' }, chk('env.fixe.on', C('env.fixe'), { fort: true }),
             quand('on:env.fixe', sel('env.fixe.pos', L('environnementFixe'), { label: 'Position du fixe' }))),
-          chk('env.murRideau.on', 'Dans un mur rideau', { fort: true }),
-          h('div', { class: 'groupe' }, chk('env.structure.on', 'Sur structure', { fort: true }),
+          ck('env.murRideau', 'env.murRideau.on', { fort: true }),
+          vis('env.structure') && h('div', { class: 'groupe' }, chk('env.structure.on', C('env.structure'), { fort: true }),
             quand('on:env.structure', sel('env.structure.mat', L('structure'), { label: 'Structure' })),
             quand('light', quand('on:env.structure', h('span', { class: 'etiquette' }, '« à votre charge »')))))),
 
@@ -199,7 +204,7 @@
         ])),
 
       bloc(6, 'Remplissage',
-        chk('remp.ensemble', "Un seul remplissage pour l'ensemble du châssis"),
+        ck('remp.ensemble', 'remp.ensemble'),
         remplissage('chassis', 'Ensemble du châssis'),
         remplissage('porte', 'Porte'),
         remplissage('fixe', 'Fixe'),
@@ -207,7 +212,7 @@
         remplissage('murRideau', 'Mur rideau'),
         quand('rempAucun', note('Cochez Porte, Fixe ou Mur rideau (bloc 3), ou Fixe / Imposte (bloc 4), pour renseigner les remplissages.', 'vide')),
         note('Avec une condition E ou EI, « Panneau » devient « Panneau feu » dans le texte.'),
-        rangee(chk('remp.aConfirmer', 'à confirmer'), chk('remp.selonPV', 'à valider selon le PV'))),
+        rangee(ck('remp.aConfirmer', 'remp.aConfirmer'), ck('remp.selonPV', 'remp.selonPV'))),
 
       bloc(7, 'Ferrage',
         quand('ferrage',
@@ -222,39 +227,39 @@
       bloc(8, 'Quincaillerie — vantail principal',
         quand('quinc',
           note('Cochez les éléments à inclure dans le texte.'),
-          element('vp.serrure', 'Serrure', rangee(
+          el('vp.serrure', rangee(
             sel('vp.serrure.points', L('serrurePoints').map(v => ({ v, l: v + (v === '1' ? ' point' : ' points') })), { label: 'Nombre de points' }),
             sel('vp.serrure.pene', L('serrurePene'), { label: 'Pêne' }),
             sel('vp.serrure.fonct', L('serrureFonctionnement'), { label: 'Fonctionnement' }),
             sel('vp.serrure.antipanique', L('antipanique').map(v => ({ v, l: 'Antipanique ' + v })), { label: 'Antipanique' }))),
-          element('vp.fermePorte', 'Ferme-porte', fermePorte('vp.fermePorte'),
+          el('vp.fermePorte', fermePorte('vp.fermePorte'),
             champ('Précision (complète le choix)', txt('vp.fermePorte.precision', { ph: 'ex. avec bras à glissière, arrêt en ouverture…', label: 'Précision ferme-porte' }))),
-          element('vp.bequille', 'Béquille', ...cotesFinition('vp.bequille', false),
+          el('vp.bequille', ...cotesFinition('vp.bequille', false),
             rangee(champ('Hauteur', txt('vp.bequille.hauteur', { type: 'number', court: true, unite: 'mm' })),
               champ('Mesurée', sel('vp.bequille.hauteurRef', L('hauteurPoigneeRef'))))),
-          element('vp.baton', 'Bâton de maréchal', rangee(chk('vp.baton.int', 'Intérieur'), chk('vp.baton.ext', 'Extérieur'),
+          el('vp.baton', rangee(ck('cote.int', 'vp.baton.int'), ck('cote.ext', 'vp.baton.ext'),
             h('span', { class: 'etiquette' }, '→ Hors gamme Forster'))),
-          element('vp.push', 'Push barre', sel('vp.push.mode', [{ v: 'inclus', l: "Inclus dans l'offre" }, { v: 'hors', l: 'Hors gamme Forster' }], { label: 'Push barre' })),
-          element('vp.rosaces', 'Rosaces', ...cotesFinition('vp.rosaces', true)),
-          element('vp.pions', 'Pions anti-dégondage'),
-          element('vp.goujons', 'Goujons thermiques', sel('vp.goujons.nb', L('goujons'), { label: 'Nombre de goujons' })),
-          element('vp.profil', 'Profil préentaillé', rangee(chk('vp.profil.serrure', 'Serrure'), chk('vp.profil.fermePorte', 'Ferme-porte'))),
-          element('vp.ventouses', 'Ventouses', rangee(
+          el('vp.push', sel('vp.push.mode', [{ v: 'inclus', l: "Inclus dans l'offre" }, { v: 'hors', l: 'Hors gamme Forster' }], { label: 'Push barre' })),
+          el('vp.rosaces', ...cotesFinition('vp.rosaces', true)),
+          el('vp.pions'),
+          el('vp.goujons', sel('vp.goujons.nb', L('goujons'), { label: 'Nombre de goujons' })),
+          el('vp.profil', rangee(ck('vp.profil.serrure', 'vp.profil.serrure'), ck('vp.profil.fermePorte', 'vp.profil.fermePorte'))),
+          el('vp.ventouses', rangee(
             h('button', { type: 'button', class: 'btn petit', 'data-action': 'ventouses' }, 'Écrire…'),
             h('span', { class: 'resume', 'data-resume': 'vp.ventouses.texte' })))),
         quand('pasQuinc', note('Non applicable : visible avec Porte, Fenêtre ou Soufflet (hors EI 120 et Thermfix Vario).', 'vide'))),
 
       bloc(9, 'Quincaillerie — vantail secondaire',
         quand('vs',
-          element('vs.rosaces', 'Rosaces', ...cotesFinition('vs.rosaces', true)),
-          element('vs.cremone', 'Crémone',
+          el('vs.rosaces', ...cotesFinition('vs.rosaces', true)),
+          el('vs.cremone',
             sel('vs.cremone.type', ['Encastrée', 'En applique'], { label: 'Type de crémone' }),
-            quand('cremEnc', rangee(h('span', { class: 'lbl-inline' }, 'À bascule :'), chk('vs.cremone.haut', 'Haut'), chk('vs.cremone.bas', 'Bas'))),
-            rangee(chk('vs.cremone.auto', 'Automatique'), chk('vs.cremone.antipanique', 'Antipanique')),
+            quand('cremEnc', rangee(h('span', { class: 'lbl-inline' }, 'À bascule :'), ck('haut', 'vs.cremone.haut'), ck('bas', 'vs.cremone.bas'))),
+            rangee(ck('vs.cremone.auto', 'vs.cremone.auto'), ck('vs.cremone.antipanique', 'vs.cremone.antipanique')),
             quand('cremApp', h('span', { class: 'etiquette' }, '→ Hors gamme Forster'))),
-          element('vs.verrou', 'Verrouillage fin', rangee(chk('vs.verrou.haut', 'Haut'), chk('vs.verrou.bas', 'Bas'))),
-          element('vs.gache', 'Gâche électrique'),
-          element('vs.fermePorte', 'Ferme-porte', fermePorte('vs.fermePorte'),
+          el('vs.verrou', rangee(ck('haut', 'vs.verrou.haut'), ck('bas', 'vs.verrou.bas'))),
+          el('vs.gache'),
+          el('vs.fermePorte', fermePorte('vs.fermePorte'),
             champ('Précision (complète le choix)', txt('vs.fermePorte.precision', { ph: 'ex. avec bras à glissière, arrêt en ouverture…', label: 'Précision ferme-porte' })))),
         quand('pasVs', note('Non applicable : visible quand la quincaillerie principale l\'est et que le nombre de vantaux est 2.', 'vide'))),
 
@@ -262,11 +267,11 @@
         h('div', { class: 'grille-types' }, L('chargeMetallier').map(v => multi('charge', v, v)))),
 
       bloc(11, 'Avis de chantier',
-        chk('avis.on', 'Ajouter un avis de chantier', { fort: true }),
+        ck('avis.on', 'avis.on', { fort: true }),
         quand('on:avis',
           rangee(champ('Hauteur', txt('avis.hauteur', { type: 'number', court: true, unite: 'mm' })),
             champ('Largeur', txt('avis.largeur', { type: 'number', court: true, unite: 'mm' }))),
-          rangee(chk('avis.cintrage', 'Cintrage'), chk('avis.serrure', 'Serrure')),
+          rangee(ck('avis.cintrage', 'avis.cintrage'), ck('avis.serrure', 'avis.serrure')),
           champ('Texte libre (une ligne = une puce)', h('textarea', { 'data-path': 'avis.texte', rows: '5' }))))
     ];
 
