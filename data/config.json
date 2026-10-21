@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "gammes": [
     {
       "id": "presto",
@@ -367,7 +367,9 @@
       "libelle": "Bandeaux Ventouses",
       "bloc": 8,
       "section": "configurations",
-      "valeurs": [],
+      "valeurs": [
+        "Bandeaux ventouse (2x300kg)"
+      ],
       "format": "puces"
     }
   ],
