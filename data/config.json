@@ -1,5 +1,5 @@
 {
-  "version": 9,
+  "version": 10,
   "gammes": [
     {
       "id": "presto",
@@ -209,7 +209,8 @@
       "valeurs": [
         "Aluminium",
         "Acier",
-        "Plats acier"
+        "Plats acier",
+        "Tube acier"
       ]
     },
     "joint": {
