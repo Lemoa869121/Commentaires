@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "gammes": [
     {
       "id": "presto",
@@ -368,7 +368,7 @@
       "bloc": 8,
       "section": "configurations",
       "valeurs": [],
-      "format": "ligne"
+      "format": "puces"
     }
   ],
   "cases": {}
