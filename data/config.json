@@ -1,5 +1,5 @@
 {
-  "version": 10,
+  "version": 11,
   "gammes": [
     {
       "id": "presto",
@@ -145,7 +145,10 @@
     {
       "id": "pivot",
       "nom": "Pivot désaxé",
-      "sousOptions": []
+      "sousOptions": [
+        "Tôlée",
+        "Vitrée"
+      ]
     },
     {
       "id": "fixe",
