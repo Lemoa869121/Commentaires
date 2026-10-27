@@ -1,5 +1,5 @@
 {
-  "version": 11,
+  "version": 12,
   "gammes": [
     {
       "id": "presto",
@@ -267,7 +267,8 @@
         "Visible",
         "Tradition crémone applique hauteur max 2400mm",
         "Designo",
-        "Surposée"
+        "Surposée",
+        "MTS + POIGNEE A CLE"
       ]
     },
     "cremoneRepliable": {
