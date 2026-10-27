@@ -54,7 +54,10 @@
       gamme: '', serie: '',
       cond, numRapport: '', numPV: '',
       types, vantaux: '', vantauxGauche: '', vantauxDroite: '',
-      env: { imposte: { on: false }, fixe: { on: false, pos: '' }, murRideau: { on: false }, structure: { on: false, mat: '' } },
+      env: {
+        imposte: { on: false }, fixe: { on: false, pos: '' }, murRideau: { on: false }, structure: { on: false, mat: '' },
+        fi: { gamme: '', degre: '', pv: '' }, mr: { gamme: '', degre: '', pv: '' }
+      },
       conf: { seuil: '', pose: '', ouverture: '', sens: '', parclose: '', joint: '', raccord: '' },
       remp: {
         ensemble: false, chassis: remplissageVide(), porte: remplissageVide(), fixe: remplissageVide(),
@@ -141,6 +144,16 @@
     return (textes.textes || []).filter(t => t.emplacement === emplacement && R.texteApplicable(t, s, cfg));
   }
 
+  // Textes d'un emplacement, partie par partie (un même texte n'est écrit qu'une fois).
+  function textesParPartie(emplacement, parties, cfg, textes) {
+    const vus = new Set();
+    return parties.map(pt => {
+      const liste = textesPour(emplacement, pt.etat, cfg, textes).filter(t => !vus.has(t.id));
+      liste.forEach(t => vus.add(t.id));
+      return { partie: pt, textes: liste };
+    }).filter(x => x.textes.length);
+  }
+
   // Ajoute des lignes en évitant les doublons exacts (ex. « Adhésif TESA ACX+ » porte + fixe).
   function ajouterSansDoublon(liste, lignes) {
     lignes.forEach(l => {
@@ -171,7 +184,26 @@
     if (g) morceauxTitre.push(g.nom);
     if (serie && !(cfg.seriesMasqueesDansTitre || []).includes(serie)) morceauxTitre.push(serie);
     if (tags.length) morceauxTitre.push(tags.join(' '));
-    const titre = morceauxTitre.join(' ');
+    const parties = R.parties(s, cfg);
+    const separees = parties.filter(pt => pt.cle !== 'principal');
+    const nomGamme = id => (cfg.gammes.find(x => x.id === id) || { nom: '' }).nom;
+    // Libellés des parties : « Porte – Presto E30 », « Fixe – Fuego light EI60 ».
+    const libPrincipal = types.length ? types.map(libType).join(' + ') : 'Ouvrage';
+    parties.forEach(pt => {
+      if (pt.cle === 'principal') {
+        pt.libelle = libPrincipal;
+        pt.detail = [g ? g.nom : '', tags.join(' ')].filter(Boolean).join(' ');
+      } else {
+        pt.libelle = pt.nom;
+        pt.detail = [nomGamme(pt.gamme), pt.degre].filter(Boolean).join(' ');
+        pt.parenthese = [pt.autreGamme ? nomGamme(pt.gamme) : '', pt.degre].filter(Boolean).join(' – ');
+      }
+    });
+    let titre = morceauxTitre.join(' ');
+    separees.forEach(pt => {
+      const t = [pt.nom, pt.autreGamme ? nomGamme(pt.gamme) : '', pt.degre].filter(Boolean).join(' ');
+      titre = titre ? titre + ' + ' + t : t;
+    });
 
     // --- Type ---
     {
@@ -183,9 +215,10 @@
         avec.push(T('env.fixe') + (pos ? ' ' + minus(pos) : ''));
       }
       if (s.env.imposte.on) avec.push(T('env.imposte'));
+      const paren = cle => { const pt = separees.find(x => x.cle === cle); return pt && pt.parenthese ? ' (' + pt.parenthese + ')' : ''; };
       const suite = [];
-      if (avec.length) suite.push('avec ' + avec.join(' + '));
-      if (s.env.murRideau.on) suite.push(T('env.murRideau'));
+      if (avec.length) suite.push('avec ' + avec.join(' + ') + paren('fi'));
+      if (s.env.murRideau.on) suite.push(T('env.murRideau') + paren('mr'));
       if (s.env.structure.on) {
         const mat = dans(s.env.structure.mat, L(cfg, 'structure'));
         suite.push(T('env.structure') + (mat ? ' ' + minus(mat) : '') + (R.light(s) ? ' (à votre charge)' : ''));
@@ -210,11 +243,15 @@
 
     // --- Conditions (textes réglementaires) ---
     {
-      const trouves = textesPour('conditions', s, cfg, textes);
+      const groupes = textesParPartie('conditions', parties, cfg, textes);
       const items = [];
-      trouves.forEach(t => {
-        if (trouves.length > 1) items.push(p(t.titre + ' :', true));
-        items.push(...lignesBibliotheque(t.texte, 0, t.gras));
+      const plusieursParties = groupes.length > 1 || (groupes.length === 1 && separees.length > 0);
+      groupes.forEach(({ partie, textes: trouves }) => {
+        if (plusieursParties) items.push(p(partie.libelle + (partie.detail ? ' – ' + partie.detail : '') + ' :', true));
+        trouves.forEach(t => {
+          if (trouves.length > 1) items.push(p(t.titre + ' :', true));
+          items.push(...lignesBibliotheque(t.texte, 0, t.gras));
+        });
       });
       section('Conditions :', items);
     }
@@ -222,8 +259,11 @@
     // --- Rapport d'essai / PV ---
     {
       const items = [];
-      if (R.essai(s, cfg) && !vide(s.numRapport)) items.push(li("Rapport d'essai n° " + net(s.numRapport)));
-      if (R.feu(s, cfg) && !vide(s.numPV)) items.push(li('PV n° ' + net(s.numPV)));
+      const avecPV = separees.filter(pt => pt.pv);
+      const pre = avecPV.length ? libPrincipal + ' : ' : '';
+      if (R.essai(s, cfg) && !vide(s.numRapport)) items.push(li(pre + "Rapport d'essai n° " + net(s.numRapport)));
+      if (R.feu(s, cfg) && !vide(s.numPV)) items.push(li(pre + 'PV n° ' + net(s.numPV)));
+      avecPV.forEach(pt => items.push(li(pt.libelle + ' : PV n° ' + pt.pv)));
       section("Rapport d'essai / PV :", items);
     }
 
@@ -233,7 +273,17 @@
       const c = s.conf;
       const v = (id, val) => dans(val, L(cfg, id));
       // Isolation : écrite automatiquement selon la gamme (textes « en tête de Configurations »).
-      textesPour('configurations-debut', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
+      {
+        const parPartie = parties.map(pt => ({ pt, lignes: [].concat(...textesPour('configurations-debut', pt.etat, cfg, textes).map(t => lignesBibliotheque(t.texte, 0, t.gras))) }))
+          .filter(x => x.lignes.length);
+        const toutesPareilles = parPartie.every(x => JSON.stringify(x.lignes) === JSON.stringify(parPartie[0].lignes));
+        // Préfixe « Porte : » / « Fixe : » dès que les parties n'ont pas toutes la même ligne.
+        if (!separees.length || (toutesPareilles && parPartie.length === parties.length)) {
+          if (parPartie.length) ajouterSansDoublon(items, parPartie[0].lignes);
+        } else {
+          parPartie.forEach(({ pt, lignes }) => lignes.forEach(l => items.push(Object.assign({}, l, { t: pt.libelle + ' : ' + l.t }))));
+        }
+      }
       if (v('seuil', c.seuil)) items.push(li('Seuil : ' + c.seuil));
       if (v('pose', c.pose)) items.push(li('Pose : ' + c.pose));
       if (R.ouvrant(s, cfg)) {
@@ -242,8 +292,8 @@
       }
       if (v('parclose', c.parclose)) items.push(li('Parclose : ' + c.parclose));
       if (v('joint', c.joint)) items.push(li('Joints : ' + c.joint));
-      if (R.vario(s) && v('raccordTraverse', c.raccord)) items.push(li('Raccord de traverse : ' + c.raccord));
-      textesPour('configurations', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
+      if (R.raccordVisible(s, cfg) && v('raccordTraverse', c.raccord)) items.push(li('Raccord de traverse : ' + c.raccord));
+      textesParPartie('configurations', parties, cfg, textes).forEach(gr => gr.textes.forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras))));
       items.push(...lignesPerso(s, cfg, 'configurations'));
       section('Configurations :', items);
     }
@@ -257,7 +307,10 @@
       };
       R.sectionsRemplissage(s, cfg).forEach(k => {
         const r = s.remp[k];
-        [['vitrage', T('remp.vitrage')], ['panneau', T('remp.panneau') + (R.feu(s, cfg) ? ' feu' : '')]].forEach(([cle, nom]) => {
+        const ptFI = separees.find(x => x.cle === 'fi');
+        const feuIci = (k === 'fixe' || k === 'imposte') && ptFI ? R.feu(ptFI.etat, cfg)
+          : k === 'chassis' ? parties.some(pt => R.feu(pt.etat, cfg)) : R.feu(s, cfg);
+        [['vitrage', T('remp.vitrage')], ['panneau', T('remp.panneau') + (feuIci ? ' feu' : '')]].forEach(([cle, nom]) => {
           if (!r[cle].on) return;
           let l = nom + (vide(r[cle].ep) ? '' : ' ' + net(r[cle].ep) + ' mm') + ' ' + LIEU[k];
           if (s.remp.aConfirmer && T('remp.aConfirmer')) l += ' — ' + (cle === 'vitrage' ? T('remp.aConfirmer') : T('remp.aConfirmer').replace(/ avec le verrier$/, ''));
@@ -309,7 +362,7 @@
       }
       if (quinc.length) { items.push(li('Quincailleries :')); items.push(...quinc); }
 
-      textesPour('inclus', s, cfg, textes).forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras)));
+      textesParPartie('inclus', parties, cfg, textes).forEach(gr => gr.textes.forEach(t => ajouterSansDoublon(items, lignesBibliotheque(t.texte, 0, t.gras))));
       items.push(...lignesPerso(s, cfg, 'inclus'));
       section("Inclus dans l'offre :", items);
     }
@@ -330,7 +383,7 @@
 
     // --- Mise en œuvre (textes de fin) ---
     const fin = [];
-    textesPour('fin', s, cfg, textes).forEach(t => fin.push(lignesBibliotheque(t.texte, 0, t.gras)));
+    textesParPartie('fin', parties, cfg, textes).forEach(gr => gr.textes.forEach(t => fin.push(lignesBibliotheque(t.texte, 0, t.gras))));
 
     // --- Avis de chantier ---
     let avis = [];

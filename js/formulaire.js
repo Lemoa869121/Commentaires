@@ -39,12 +39,13 @@
 
   function sel(chemin, valeurs, o = {}) {
     const s = h('select', { 'data-path': chemin, 'data-opts': o.dyn || null, 'aria-label': o.label || null });
+    if (o.vide) s.dataset.vide = o.vide;
     remplirOptions(s, valeurs || []);
     return s;
   }
   function remplirOptions(s, valeurs) {
     s.innerHTML = '';
-    s.appendChild(h('option', { value: '' }, valeurs.length ? '— choisir —' : '— aucune —'));
+    s.appendChild(h('option', { value: '' }, valeurs.length ? (s.dataset.vide || '— choisir —') : '— aucune —'));
     valeurs.map(opt).forEach(o => s.appendChild(h('option', { value: o.v }, o.l)));
     s.disabled = !valeurs.length;
     s.dataset.sig = valeurs.map(o => opt(o).v).join('|');
@@ -92,7 +93,8 @@
     repliable: (s, c) => R.repliable(s, c),
     light: s => R.light(s),
     ouvrant: (s, c) => R.ouvrant(s, c),
-    vario: s => R.vario(s),
+    vario: (s, c) => R.raccordVisible(s, c),
+    zoneFI: s => R.zoneCochee(s, 'fi'),
     ferrage: (s, c) => R.ferrageVisible(s, c),
     pasFerrage: (s, c) => !R.ferrageVisible(s, c),
     quincFen: (s, c) => R.quincFenetreVisible(s, c),
@@ -131,6 +133,13 @@
     const vis = cle => R.caseVisible(cfg, cle);
     const ck = (cle, chemin, o) => (vis(cle) ? chk(chemin, C(cle), o) : null);
     const el = (cle, ...details) => (vis(cle) ? element(cle, C(cle), ...details) : null);
+    // Gamme, degré feu et N° PV propres au Fixe / Imposte (fi) ou au Mur rideau (mr).
+    const zone = (cle, titre) => h('div', { class: 'sous-bloc' },
+      h('h3', {}, titre + ' — si différent de l’ouvrage'),
+      rangee(
+        champ('Gamme', sel('env.' + cle + '.gamme', cfg.gammes.map(g => ({ v: g.id, l: g.nom })), { label: 'Gamme ' + titre, vide: '— même gamme —' })),
+        champ('Degré feu', sel('env.' + cle + '.degre', R.degresFeu(cfg), { label: 'Degré feu ' + titre, vide: '— aucun —' })),
+        champ('N° PV', txt('env.' + cle + '.pv', { ph: 'ex. EFR-…', label: 'N° PV ' + titre }))));
     const avert = () => quand('ei120', h('div', { class: 'alerte', role: 'alert' },
       h('strong', {}, 'EI 120 sélectionné : '), 'seul le type « Fixe » est possible. Les autres types sont grisés et ne figurent pas dans le commentaire.'));
 
@@ -186,7 +195,9 @@
           ck('env.imposte', 'env.imposte.on', { fort: true }),
           vis('env.fixe') && h('div', { class: 'groupe' }, chk('env.fixe.on', C('env.fixe'), { fort: true }),
             quand('on:env.fixe', sel('env.fixe.pos', L('environnementFixe'), { label: 'Position du fixe' }))),
+          quand('zoneFI', zone('fi', 'Fixe / Imposte')),
           ck('env.murRideau', 'env.murRideau.on', { fort: true }),
+          vis('env.murRideau') && quand('on:env.murRideau', zone('mr', 'Mur rideau')),
           vis('env.structure') && h('div', { class: 'groupe' }, chk('env.structure.on', C('env.structure'), { fort: true }),
             quand('on:env.structure', sel('env.structure.mat', L('structure'), { label: 'Structure' })),
             quand('light', quand('on:env.structure', h('span', { class: 'etiquette' }, '« à votre charge »')))))),

@@ -189,6 +189,68 @@
       return R.repliable(s, cfg) ? base.concat(cfg.listes.paumellesRepliable.valeurs) : base;
     },
 
+    // ---------- Gamme / degré feu propres au Fixe-Imposte (fi) et au Mur rideau (mr) ----------
+    degresFeu(cfg) {
+      const out = [];
+      ['E', 'EI'].forEach(id => {
+        const c = cfg.conditions.find(x => x.id === id);
+        if (c) c.niveaux.forEach(n => out.push(id + n));
+      });
+      return out;
+    },
+
+    zoneCochee(s, cle) {
+      if (cle === 'fi') return !!(s.env.fixe.on || s.env.imposte.on);
+      if (cle === 'mr') return !!s.env.murRideau.on;
+      return false;
+    },
+
+    // Un élément devient une « partie » à part dès qu'on lui donne une gamme ou un degré feu.
+    zoneSeparee(s, cle, cfg) {
+      const z = s.env[cle];
+      if (!z || !R.zoneCochee(s, cle)) return false;
+      const gammeOk = z.gamme && cfg.gammes.some(g => g.id === z.gamme);
+      return !!(gammeOk || R.degresFeu(cfg).includes(z.degre));
+    },
+
+    // Liste des parties de l'ouvrage, chacune avec un « sous-état » qui sert
+    // à choisir ses textes automatiques (gamme et conditions propres).
+    parties(s, cfg) {
+      const clone = () => JSON.parse(JSON.stringify(s));
+      const sepFI = R.zoneSeparee(s, 'fi', cfg), sepMR = R.zoneSeparee(s, 'mr', cfg);
+      const principal = clone();
+      if (sepFI) { principal.env.fixe.on = false; principal.env.imposte.on = false; }
+      if (sepMR) principal.env.murRideau.on = false;
+      const liste = [{ cle: 'principal', etat: principal, gamme: s.gamme }];
+      const partie = (cle, nom) => {
+        const z = s.env[cle];
+        const e = clone();
+        const gammeOk = z.gamme && cfg.gammes.some(g => g.id === z.gamme);
+        e.gamme = gammeOk ? z.gamme : s.gamme;
+        Object.keys(e.cond).forEach(id => { e.cond[id] = { on: false, niveaux: [] }; });
+        const m = String(z.degre || '').match(/^(EI|E)(\d+)$/);
+        if (m && e.cond[m[1]]) e.cond[m[1]] = { on: true, niveaux: [m[2]] };
+        Object.keys(e.types).forEach(id => { e.types[id].on = false; });
+        if (cle === 'fi') { e.env.murRideau.on = false; }
+        else { e.env.fixe.on = false; e.env.imposte.on = false; if (e.types.murRideau) e.types.murRideau.on = true; }
+        return {
+          cle, nom, etat: e, gamme: e.gamme,
+          autreGamme: !!gammeOk && z.gamme !== s.gamme,
+          degre: m ? z.degre : '', pv: String(z.pv || '').trim()
+        };
+      };
+      if (sepFI) {
+        const nom = s.env.fixe.on && s.env.imposte.on ? 'Fixe / Imposte' : (s.env.fixe.on ? 'Fixe' : 'Imposte');
+        liste.push(partie('fi', nom));
+      }
+      if (sepMR) liste.push(partie('mr', 'Mur rideau'));
+      return liste;
+    },
+
+    raccordVisible(s, cfg) {
+      return R.vario(s) || R.parties(s, cfg).some(p => p.cle !== 'principal' && p.gamme === 'vario');
+    },
+
     // Un texte de la bibliothèque s'applique-t-il ?
     texteApplicable(t, s, cfg) {
       if (t.gammes && t.gammes.length && !t.gammes.includes(s.gamme)) return false;

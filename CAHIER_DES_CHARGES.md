@@ -41,6 +41,10 @@ Fenêtre, Soufflet, Projection, Porte, Mur rideau, Verrière, Coulissant, Replia
 
 ### Bloc 4 — Environnement (⚖ choix multiples, ex. Fixe + Imposte)
 - Imposte · Fixe (Gauche / Droite / Bord à bord) · Dans un mur rideau · Sur structure (Acier / Bois / Autre).
+- **Gamme / degré feu par élément** : si Fixe et/ou Imposte est coché, un réglage commun « Fixe / Imposte » propose Gamme (par défaut : même gamme que l'ouvrage), Degré feu (E30 … EI120, un seul) et N° PV. Même réglage, séparé, pour « Dans un mur rideau ». « Sur structure » n'en a pas.
+  - Les conditions du bloc 2 et le blocage EI120 ne concernent que l'ouvrage principal (types du bloc 3) ; un fixe EI120 ne grise pas la porte.
+  - Titre : « Porte Presto E30 + Fixe Fuego light EI60 » (gamme citée seulement si différente). Type : « avec Fixe gauche + Imposte (Fuego light – EI60) ».
+  - Textes automatiques déclenchés par partie (gamme + degré propres), sous-titrés « Fixe / Imposte – Fuego light EI60 : » ; PV listés par partie ; « Panneau feu » selon le degré de la partie ; isolation préfixée « Porte : » / « Fixe : » quand les parties diffèrent ; raccord de traverse affiché si une partie est en Thermfix Vario.
 - Gamme Thermfix Light : « Sur structure » est présélectionné au choix de la gamme (modifiable) et le texte ajoute « (à votre charge) ».
 
 ### Bloc 5 — Configuration
