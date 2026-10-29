@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "gammes": [
     {
       "id": "presto",
@@ -374,6 +374,16 @@
       "section": "configurations",
       "valeurs": [
         "Bandeaux ventouse (2x300kg)"
+      ],
+      "format": "puces"
+    },
+    {
+      "id": "cases-gache-electrique",
+      "libelle": "Gâche électrique",
+      "bloc": 8,
+      "section": "vp",
+      "valeurs": [
+        "Gâche électrique"
       ],
       "format": "puces"
     }
