@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "textes": [
     {
       "id": "isolation-non-isolee",
@@ -246,7 +246,9 @@
       ],
       "gammesExclues": [],
       "conditions": {
-        "RC": []
+        "RC": [
+          "4"
+        ]
       },
       "elements": [
         "porte"
@@ -263,7 +265,9 @@
       ],
       "gammesExclues": [],
       "conditions": {
-        "RC": []
+        "RC": [
+          "4"
+        ]
       },
       "elements": [
         "fixe"
