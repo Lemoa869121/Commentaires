@@ -1,5 +1,5 @@
 {
-  "version": 13,
+  "version": 14,
   "gammes": [
     {
       "id": "presto",
@@ -298,7 +298,8 @@
       "valeurs": [
         "Mécanique",
         "Motorisée",
-        "À béquille contrôlée"
+        "À béquille contrôlée",
+        "électrique"
       ]
     },
     "antipanique": {
