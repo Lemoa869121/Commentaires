@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "gammes": [
     {
       "id": "presto",
@@ -181,7 +181,8 @@
       "valeurs": [
         "Automatique",
         "Suisse",
-        "Joint balais"
+        "Joint balais",
+        "Libre"
       ]
     },
     "pose": {
