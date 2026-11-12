@@ -1,5 +1,5 @@
 {
-  "version": 18,
+  "version": 19,
   "gammes": [
     {
       "id": "presto",
@@ -385,7 +385,7 @@
       "id": "cases-gache-electrique",
       "libelle": "Gâche électrique",
       "bloc": 8,
-      "section": "vp",
+      "section": "propre",
       "valeurs": [
         "Gâche électrique"
       ],
