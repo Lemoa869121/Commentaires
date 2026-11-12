@@ -1,5 +1,5 @@
 {
-  "version": 16,
+  "version": 17,
   "gammes": [
     {
       "id": "presto",
@@ -198,7 +198,8 @@
       "libelle": "Ouverture",
       "valeurs": [
         "Intérieur",
-        "Extérieur"
+        "Extérieur",
+        "Va et viens"
       ]
     },
     "sens": {
