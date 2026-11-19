@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "textes": [
     {
       "id": "isolation-non-isolee",
@@ -116,7 +116,7 @@
         "porte"
       ],
       "gras": false,
-      "texte": "- Plat acier (à votre charge)"
+      "texte": "- Inclus dans l’offre :\n  - Plats alu de renfort dans profilés"
     },
     {
       "id": "fb4-unico-fixe",
@@ -135,7 +135,7 @@
         "fixe"
       ],
       "gras": false,
-      "texte": "- Plat acier (à votre charge)\n- Inclus dans l’offre :\n  - Plats alu de renfort dans profilés"
+      "texte": "- Inclus dans l’offre :\n  - Plats alu de renfort dans profilés"
     },
     {
       "id": "fb6-unico-porte",
